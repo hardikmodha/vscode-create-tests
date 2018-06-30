@@ -2,26 +2,166 @@
     "name": "create-tests",
     "displayName": "create-tests",
     "description": "An extension to quickly generate test files.",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "publisher": "hardikmodha",
-    "homepage": "https://github.com/HardikModha/vscode-create-tests",
+    "homepage": "https://github.com/HardikModha/vscode-create-tests/blob/master/README.md",
+    "author": {
+        "name": "Hardik Modha",
+        "email": "hardikmodha22@gmail.com"
+    },
     "engines": {
         "vscode": "^1.24.0"
     },
     "categories": [
+        "Programming Languages",
+        "Snippets",
         "Other"
     ],
+    "keywords": [
+        "code generator",
+        "tests",
+        "test file generator",
+        "create tests",
+        "create test file"
+    ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onLanguage:typescript",
+        "onLanguage:javascript",
+        "onLanguage:typescriptreact",
+        "onLanguage:javascriptreact"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.sayHello",
-                "title": "Hello World"
+                "command": "createTests.create",
+                "title": "Create test file"
             }
-        ]
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "when": "resourceLangId == typescript",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceLangId == javascript",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceLangId == typescriptreact",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceLangId == javascriptreact",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                }
+            ],
+            "editor/title/context": [
+                {
+                    "when": "resourceLangId == typescript",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceLangId == javascript",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceLangId == typescriptreact",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceLangId == javascriptreact",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                }
+            ],
+            "editor/context": [
+                {
+                    "when": "resourceLangId == typescript",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceLangId == javascript",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceLangId == typescriptreact",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceLangId == javascriptreact",
+                    "command": "createTests.create",
+                    "group": "2_workspace"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Place test files with source files",
+            "properties": {
+                "createTests.defaultLocationForTestFiles": {
+                    "type": "string",
+                    "default": "same location as source file",
+                    "enum": [
+                        "same location as source file",
+                        "project root"
+                    ],
+                    "description": "By default where to put the test files."
+                },
+                "createTests.sourceDir": {
+                    "type": "string",
+                    "default": "src",
+                    "description": "Name of the directory which contains all source files"
+                },
+                "createTests.testDirectoryName": {
+                    "type": "string",
+                    "default": "tests",
+                    "description": "Name of the test directory."
+                },
+                "createTests.customLocationForTestFiles": {
+                    "type": "string",
+                    "description": "Set this property in case you want to specify the custom location for test files."
+                },
+                "createTests.testFilesSuffix": {
+                    "type": "string",
+                    "default": "test",
+                    "description": "Custom suffix to use for the test files. Default is test"
+                },
+                "createTests.shouldSwitchToTestFile": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to switch to the test file or not after creating it."
+                },
+                "createTests.template.*": {
+                    "type": [
+                        "array",
+                        "object"
+                    ],
+                    "description": "Template for any language"
+                },
+                "createTests.template.default": {
+                    "type": "array",
+                    "default": [
+                        "import ${moduleName} from '${modulePath}';"
+                    ],
+                    "description": "Default template"
+                }
+            }
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/HardikModha/vscode-create-tests.git"
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -36,5 +176,9 @@
         "tslint": "^5.8.0",
         "@types/node": "^7.0.43",
         "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "@types/mkdirp": "^0.5.2",
+        "mkdirp": "^0.5.1"
     }
 }
