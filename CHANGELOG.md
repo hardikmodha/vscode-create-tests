@@ -1,5 +1,4 @@
 # Change Log
-All notable changes to the "create-tests" extension will be documented in this file.
 
-## [Unreleased]
+## 1.0.0 (July 01, 2018)
 - Initial release
