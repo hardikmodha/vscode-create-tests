@@ -1,8 +1,10 @@
 
 
-vscode-create-tests
+[vscode-create-tests]()
 ====
 Quickly create test files for your JavaScript/Typescript/React projects with just one click.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/HardikModha/vscode-create-tests/blob/master/LICENCE)
 
 ### Motivation
 
