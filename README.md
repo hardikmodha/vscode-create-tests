@@ -4,7 +4,7 @@
 ====
 Quickly create test files for your JavaScript/Typescript/React projects with just one click.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/HardikModha/vscode-create-tests/blob/master/LICENCE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/HardikModha/vscode-create-tests/blob/master/LICENSE)
 
 ### Motivation
 
@@ -25,7 +25,7 @@ While working on a project in my organization, We followed a pattern to keep tes
 
 Install and open [Visual Studio Code](https://code.visualstudio.com/). Press `Ctrl+Shift+X` or `Cmd+Shift+X` to open the Extensions pane. Type `create tests` in the search box and hit enter. You can also install the extension from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests). Currently, It supports Typescript and Javascript files. (Supported file extensions: `.ts`, `.tsx`, `.js`, `.jsx`)
 
-![Demo](https://media.giphy.com/media/2fLd7YOpMi1Z7vi91l/giphy.gif)
+![Demo](https://media.giphy.com/media/1iqPhENd8SLd9SggeX/giphy.gif)
 
 ## Configuration options
 
