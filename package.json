@@ -1,6 +1,6 @@
 {
     "name": "create-tests",
-    "displayName": "create-tests",
+    "displayName": "Create tests",
     "description": "An extension to quickly generate test files.",
     "version": "1.0.0",
     "publisher": "hardikmodha",
@@ -107,7 +107,7 @@
             ]
         },
         "configuration": {
-            "title": "Place test files with source files",
+            "title": "Where to keep the test files?",
             "properties": {
                 "createTests.defaultLocationForTestFiles": {
                     "type": "string",
@@ -116,12 +116,12 @@
                         "same location as source file",
                         "project root"
                     ],
-                    "description": "By default where to put the test files."
+                    "description": "Where to keep the created test files?"
                 },
                 "createTests.sourceDir": {
                     "type": "string",
                     "default": "src",
-                    "description": "Name of the directory which contains all source files"
+                    "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file."
                 },
                 "createTests.testDirectoryName": {
                     "type": "string",
@@ -135,7 +135,7 @@
                 "createTests.testFilesSuffix": {
                     "type": "string",
                     "default": "test",
-                    "description": "Custom suffix to use for the test files. Default is test"
+                    "description": "Suffix to use for the test files."
                 },
                 "createTests.shouldSwitchToTestFile": {
                     "type": "boolean",
@@ -147,14 +147,17 @@
                         "array",
                         "object"
                     ],
-                    "description": "Template for any language"
+                    "description": "Language specific templates that you want to use."
                 },
                 "createTests.template.default": {
-                    "type": "array",
+                    "type": [
+                        "array",
+                        "object"
+                    ],
                     "default": [
                         "import ${moduleName} from '${modulePath}';"
                     ],
-                    "description": "Default template"
+                    "description": "Default template to use for all test file"
                 }
             }
         }
@@ -168,14 +171,15 @@
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+        "lint-ts": "tslint --config ./tslint.json --project ./tsconfig.json",
+        "test": "npm run lint-ts && npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "tslint": "^5.8.0",
+        "@types/mocha": "^2.2.42",
         "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+        "tslint": "^5.10.0",
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6"
     },
     "dependencies": {
         "@types/mkdirp": "^0.5.2",

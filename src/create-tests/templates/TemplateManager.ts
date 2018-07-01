@@ -1,8 +1,8 @@
-import * as path from 'path';
-import {workspace} from 'vscode';
-import {SourceFile} from '../SourceFile';
-import {Template} from '../types';
-import {getDirectoryPath} from '../util';
+import * as path from "path";
+import {workspace} from "vscode";
+import {SourceFile} from "../SourceFile";
+import {Template} from "../types";
+import {getDirectoryPath} from "../util";
 
 /**
  * Class which defines methods to get file-template/code-snippets for the different type of files.
@@ -17,7 +17,7 @@ export class TemplateManager {
      * @param file SourceFile instance
      */
     static getTemplateForFile(file: SourceFile): Template {
-        const templates = workspace.getConfiguration('createTests.template');
+        const templates = workspace.getConfiguration("createTests.template");
 
         return templates.get(file.getExtension(), []);
     }
@@ -27,9 +27,9 @@ export class TemplateManager {
      * "createTests.template.default".
      */
     static getDefaultTemplate(): string[] {
-        const templates = workspace.getConfiguration('createTests.template');
+        const templates = workspace.getConfiguration("createTests.template");
 
-        return templates.get('default', []);
+        return templates.get("default", []);
     }
 
     /**
@@ -48,6 +48,8 @@ export class TemplateManager {
 
         const importPath = path.join(path.relative(testFileDir, sourceFileDir), moduleName);
 
-        return template.join('\n').replace(/\$\{moduleName\}/g, `{${moduleName}}`).replace(/\$\{modulePath\}/g, `${importPath}`);
+        return template.join("\n")
+            .replace(/\$\{moduleName\}/g, `{${moduleName}}`)
+            .replace(/\$\{modulePath\}/g, `${importPath}`);
     }
 }

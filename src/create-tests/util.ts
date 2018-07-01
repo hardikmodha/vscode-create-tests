@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
 export const getDirectoryPath = (filePath: string): string => {
     const splitPath: string[] = filePath.split(path.sep);

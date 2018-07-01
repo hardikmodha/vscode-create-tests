@@ -1,13 +1,13 @@
-import * as path from 'path';
-import * as fs from 'fs';
-import {Uri, window} from 'vscode';
+import * as fs from "fs";
+import * as path from "path";
+import {Uri, window} from "vscode";
 
-import {Template} from './types';
+import {Configuration} from "./config/Configuration";
 import {SourceFile} from "./SourceFile";
-import {Configuration} from './config/Configuration';
-import {TemplateManager} from './templates/TemplateManager';
+import {TemplateManager} from "./templates/TemplateManager";
+import {Template} from "./types";
 
-import mkdirp = require('mkdirp');
+import mkdirp = require("mkdirp");
 
 /**
  * A helper class which defines methods to create a test file for any particular source file based on the
@@ -49,7 +49,7 @@ export class CreationHelper {
                     this.switchToTestFile(testFilePath);
                 }
 
-                window.showInformationMessage('Test file has been created successfully.');
+                window.showInformationMessage("Test file has been created successfully.");
             }
         });
     }
@@ -75,7 +75,7 @@ export class CreationHelper {
     getTestFileName(): string {
         const suffix: string = this.configuration.getTestFilesSuffix();
 
-        return [this.sourceFile.getNameWithoutExtension(), suffix, this.sourceFile.getExtension()].join('.');
+        return [this.sourceFile.getNameWithoutExtension(), suffix, this.sourceFile.getExtension()].join(".");
     }
 
     getRelativePath(testFilePath: string): string {
@@ -92,7 +92,7 @@ export class CreationHelper {
 
             if (content.length > 0) {
                 const stringTemplate: string = TemplateManager.replacePlaceHolders(
-                    this.sourceFile, filePath, content
+                    this.sourceFile, filePath, content,
                 );
 
                 fs.writeFile(filePath, stringTemplate, (err) => {
@@ -117,20 +117,20 @@ export class CreationHelper {
     }
 
     getTemplate(): Thenable<string[]> {
-        const template: Template = TemplateManager.getTemplateForFile(this.sourceFile);
+        let template: Template = TemplateManager.getTemplateForFile(this.sourceFile);
+
+        if (Array.isArray(template) && !template.length) {
+            template = TemplateManager.getDefaultTemplate();
+        }
 
         // If only single template is defined then return it
         if (Array.isArray(template)) {
-            if (!template.length) {
-                return Promise.resolve(TemplateManager.getDefaultTemplate());
-            }
-
             return Promise.resolve(template);
         }
 
         // ...else display all the available options to user and let him/her choose the template.
         return window.showQuickPick(Object.keys(template)).then(((selected) => {
-            return selected ? template[selected] : TemplateManager.getDefaultTemplate();
+            return selected ? (template as any)[selected] : TemplateManager.getDefaultTemplate();
         }));
     }
 }

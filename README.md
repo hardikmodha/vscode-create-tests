@@ -1,65 +1,104 @@
-# create-tests README
 
-This is the README for your extension "create-tests". After writing up a brief description, we recommend including the following sections.
+
+vscode-create-tests
+====
+Quickly create test files for your JavaScript/Typescript/React projects with just one click.
+
+### Motivation
+
+While working on a project in my organization, We followed a pattern to keep tests files outside the main source directory. It was working fine until the project got bigger. It was becoming really very difficult to mimic the same directory structure as the source file and create a test file in it manually. You can take a look at [git-point](https://github.com/gitpoint/git-point) repo. The directory structure and test directory structure is same as our project.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+* Create test file from the file explorer view/editor title view or from the editor.
+* Specifying the default location to keep the test files. Currently supports
+   1. Location same as the file location.
+   2. Project root
+* If for some reasons default locations don't work for you. Don't worry,  you can specify the custom location as well.
+* Custom name for the test directory.
+* Ability to specify the various template(s) to use for test files for the different languages.
+* Automatically switching to test cases when you create them.
 
-For example if there is an image subfolder under your extension project workspace:
+## How to use this extension?
 
-\!\[feature X\]\(images/feature-x.png\)
+Install and open [Visual Studio Code](https://code.visualstudio.com/). Press `Ctrl+Shift+X` or `Cmd+Shift+X` to open the Extensions pane. Type `create tests` in the search box and hit enter. You can also install the extension from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests). Currently, It supports Typescript and Javascript files. (Supported file extensions: `.ts`, `.tsx`, `.js`, `.jsx`)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+[Demo](https://media.giphy.com/media/2fLd7YOpMi1Z7vi91l/giphy.gif)
 
-## Requirements
+## Configuration options
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+| Property | Type | Default | Allowed Values |Description |
+|:---|:---|:---|:---|:---|
+| `createTests.defaultLocationForTestFiles` | string | `same location as source file` | 1. `same location as source file`, &nbsp;&nbsp;&nbsp; 2. `project root`|Location where you want to keep the test files. |
+| `createTests.sourceDir` | string | `src` | any string value | Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file. |
+| `createTests.testDirectoryName` | string | `tests` | any string value | Name of the directory which should contain all the test files.
+ | `createTests.customLocationForTestFiles` | string | - | any valid path | Set this property in case you want to specify the custom location for test files.
+ | `createTests.testFilesSuffix` | string | 'test' | any string value | Suffix to append for every created test file
+  | `createTests.shouldSwitchToTestFile` | boolean | true | true \| false | Whether to switch to the created test file or not
+  | `createTests.template.default` | array \| object | `["import ${moduleName} from '${modulePath}';"]` | any string array or object |Default template to use for all test file
+| `createTests.template.*` | array \| object | - | string array or object |Language specific templates that you want to use.
 
-## Extension Settings
+## Template types
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Templates are used to initialize test files with default content. It eases the task and removes boilerplate code. Following template types are supported.
 
-For example:
+### 1. Default template
 
-This extension contributes the following settings:
+The default template for any file can be specified by overriding the configuration `createTests.template.default`.
+Default value for this template is: `"import ${moduleName} from '${modulePath}';"` Here, `moduleName` and `modulePath` are special placeholders, which gets replaces with the source file name and the relative path to the source file respectively.
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+### 2. Language-specific templates
+When creating the test files, this extension reads the configuration for the template specified by `createTests.template.<file-extension>`. So if your file name is `MyFile.js` then the extension will read the configuration `createTests.template.js` for the template. If it finds one then it will write the content of the template into the created test file.
 
-## Known Issues
+**Note**: Language-specific templates have higher priority over the default template.
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Supported templates
 
-## Release Notes
+For this extension, The templates can vary from as simple as
 
-Users appreciate release notes as you update your extension.
+```
+"import ${moduleName} from '${modulePath}';"
+```
+to
+```
+[
+    "import ${moduleName} from '${modulePath}'"
+    "",
+    "describe('${moduleName}', (){",
+    "  it('', (){",
+    "",
+    "  })",
+    "})"
+]
+```
+and can be as complex as
+```
+{
+    "Template for basic files": [
+        "import ${moduleName} from '${modulePath}'"
+    ],
+    "Template for awesome files": [
+        "import ${moduleName} from '${modulePath}'",
+        "describe('${moduleName}', () {",
+	    "it('', () {",
+	    "",
+	    "  })",
+	    "})"
+    ]
+}
+```
 
-### 1.0.0
+When you specify a template object, The extension will ask you to choose the template when you create a file as shown in the below image.
 
-Initial release of ...
+![Multiple Templates Demo](https://i.imgur.com/FBonrQJ.png)
 
-### 1.0.1
+## TODO
 
-Fixed issue #.
+- [ ] Add test cases.
+- [ ] Support for creating the test files via keyboard shortcut.
+- [ ] Support for more placeholders to make templating more usable.
 
-### 1.1.0
 
-Added features X, Y, and Z.
+## License
 
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+[MIT](LICENSE)

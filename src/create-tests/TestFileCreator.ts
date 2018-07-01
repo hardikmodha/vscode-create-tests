@@ -1,7 +1,7 @@
-import * as vscode from 'vscode';
-import {SourceFile} from './SourceFile';
-import {CreationHelper} from './CreationHelper';
-import {ConfigurationManager} from './config/ConfigurationManager';
+import * as vscode from "vscode";
+import {ConfigurationManager} from "./config/ConfigurationManager";
+import {CreationHelper} from "./CreationHelper";
+import {SourceFile} from "./SourceFile";
 
 export class TestFileCreator {
 
@@ -9,7 +9,7 @@ export class TestFileCreator {
      * This is the entry point when the "createTests.create" command gets executed.
      * @param args {@link Uri} of the source file
      */
-    public static createFor(args: vscode.Uri) {
+    static createFor(args: vscode.Uri) {
         if (!args) {
             return;
         }

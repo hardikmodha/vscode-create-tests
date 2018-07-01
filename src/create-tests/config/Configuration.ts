@@ -1,11 +1,11 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import {WorkspaceConfiguration} from 'vscode';
-import {IConfiguration} from '../types';
-import {SourceFile} from '../SourceFile';
-import {getDirectoryPath, replaceSourceDir} from '../util';
-import {DefaultLocationForTestFiles, DEFAULT_TEST_DIRECTORY_NAME, DEFAULT_TEST_FILES_SUFFIX} from '../constants';
-import mkdirp = require('mkdirp');
+import * as fs from "fs";
+import * as path from "path";
+import {WorkspaceConfiguration} from "vscode";
+import {IConfiguration} from "../types";
+import {SourceFile} from "../SourceFile";
+import {getDirectoryPath, replaceSourceDir} from "../util";
+import {DEFAULT_TEST_DIRECTORY_NAME, DEFAULT_TEST_FILES_SUFFIX, DefaultLocationForTestFiles} from "../constants";
+import mkdirp = require("mkdirp");
 
 /**
  * A class used to hold the extension configurations. It also defines the getters to read the configuration.
@@ -14,10 +14,10 @@ export class Configuration {
     private defaultConfiguration: IConfiguration = {
         defaultLocationForTestFiles: DefaultLocationForTestFiles.SAME_AS_SOURCE_FILE,
         testDirectoryName: DEFAULT_TEST_DIRECTORY_NAME,
-        customTestFilesLocation: '',
+        customTestFilesLocation: "",
         testFilesSuffix: DEFAULT_TEST_FILES_SUFFIX,
         shouldSwitchToTestFile: true,
-        sourceDir: 'src',
+        sourceDir: "src",
     };
 
     private workspaceConfig: WorkspaceConfiguration;
@@ -38,11 +38,13 @@ export class Configuration {
     }
 
     getDefaultLocationForTestFiles(): string {
-        return this.getConfigValue('defaultLocationForTestFiles', this.defaultConfiguration.defaultLocationForTestFiles);
+        return this.getConfigValue(
+            "defaultLocationForTestFiles", this.defaultConfiguration.defaultLocationForTestFiles,
+        );
     }
 
     getCustomLocationForTestFiles(): string {
-        return this.getConfigValue('customLocationForTestFiles', '');
+        return this.getConfigValue("customLocationForTestFiles", "");
     }
 
     /**
@@ -88,7 +90,7 @@ export class Configuration {
                     : this.sourceFile.getBaseDirectoryPath();
         }
 
-        return '';
+        return "";
     }
 
     /**
@@ -111,18 +113,18 @@ export class Configuration {
     }
 
     getTestDirectoryName(): string {
-        return this.getConfigValue('testDirectoryName', this.defaultConfiguration.testDirectoryName);
+        return this.getConfigValue("testDirectoryName", this.defaultConfiguration.testDirectoryName);
     }
 
     getTestFilesSuffix(): string {
-        return this.getConfigValue('testFilesSuffix', this.defaultConfiguration.testFilesSuffix);
+        return this.getConfigValue("testFilesSuffix", this.defaultConfiguration.testFilesSuffix);
     }
 
     shouldSwitchToTestFile(): boolean {
-        return this.workspaceConfig.get('shouldSwitchToTestFile', this.defaultConfiguration.shouldSwitchToTestFile);
+        return this.workspaceConfig.get("shouldSwitchToTestFile", this.defaultConfiguration.shouldSwitchToTestFile);
     }
 
     getSourceDir(): string {
-        return this.workspaceConfig.get('sourceDir', this.defaultConfiguration.sourceDir);
+        return this.workspaceConfig.get("sourceDir", this.defaultConfiguration.sourceDir);
     }
 }

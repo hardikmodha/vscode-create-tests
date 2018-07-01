@@ -1,6 +1,6 @@
-import * as path from 'path';
-import {getDirectoryPath} from './util';
-import {Uri, workspace, WorkspaceFolder} from 'vscode';
+import * as path from "path";
+import {Uri, workspace, WorkspaceFolder} from "vscode";
+import {getDirectoryPath} from "./util";
 
 export class SourceFile {
     private sourceFileUri: Uri;
@@ -12,7 +12,7 @@ export class SourceFile {
     }
 
     getBaseDirectoryPath(): string {
-        return this.workSpaceFolder ? this.workSpaceFolder.uri.fsPath : '';
+        return this.workSpaceFolder ? this.workSpaceFolder.uri.fsPath : "";
     }
 
     getAbsolutePath(): string {
@@ -32,7 +32,7 @@ export class SourceFile {
     }
 
     getExtension(): string {
-        return this.sourceFileUri.fsPath.split('.').pop() || '';
+        return this.sourceFileUri.fsPath.split(".").pop() || "";
     }
 
     getNameWithoutExtension(): string {
