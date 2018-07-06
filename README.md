@@ -1,6 +1,6 @@
 
 
-[vscode-create-tests]()
+[vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests)
 ====
 Quickly create test files for your JavaScript/Typescript/React projects with just one click.
 
@@ -8,7 +8,7 @@ Quickly create test files for your JavaScript/Typescript/React projects with jus
 
 ### Motivation
 
-While working on a project in my organization, We followed a pattern to keep tests files outside the main source directory. It was working fine until the project got bigger. It was becoming really very difficult to mimic the same directory structure as the source file and create a test file in it manually. You can take a look at [git-point](https://github.com/gitpoint/git-point) repo. The directory structure and test directory structure is same as our project.
+While working on a project in my organization, We followed a pattern to keep tests files outside the main source directory. (Same structure as [this](https://github.com/gitpoint/git-point)). It was working fine until the project got bigger. It was becoming really very difficult to mimic the same directory structure as the source file and create a test file in it manually. So this extension solves the problem. It helps you to quickly generate test files with many possible customizations.
 
 ## Features
 
