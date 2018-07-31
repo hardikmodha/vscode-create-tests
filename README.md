@@ -97,8 +97,9 @@ When you specify a template object, The extension will ask you to choose the tem
 ## TODO
 
 - [ ] Add test cases.
-- [ ] Support for creating the test files via keyboard shortcut.
-- [ ] Support for more placeholders to make templating more usable.
+- [ ] Add support for creating the test files via keyboard shortcut.
+- [ ] Add support for more placeholders to make templating more usable.
+- [ ] Add support for different languages.
 
 
 ## License
