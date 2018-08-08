@@ -1,6 +1,6 @@
 
 
-[vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests)
+[vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests) (v1.0.1)
 ====
 Quickly create test files for your JavaScript/Typescript/React projects with just one click.
 
@@ -37,7 +37,7 @@ Install and open [Visual Studio Code](https://code.visualstudio.com/). Press `Ct
  | `createTests.customLocationForTestFiles` | string | - | any valid path | Set this property in case you want to specify the custom location for test files.
  | `createTests.testFilesSuffix` | string | 'test' | any string value | Suffix to append for every created test file
   | `createTests.shouldSwitchToTestFile` | boolean | true | true \| false | Whether to switch to the created test file or not
-  | `createTests.template.default` | array \| object | `["import ${moduleName} from '${modulePath}';"]` | any string array or object |Default template to use for all test file
+  | `createTests.template.default` | array \| object | `["import {${moduleName}} from '${modulePath}';"]` | any string array or object |Default template to use for all test file
 | `createTests.template.*` | array \| object | - | string array or object |Language specific templates that you want to use.
 
 ## Template types
@@ -59,12 +59,12 @@ When creating the test files, this extension reads the configuration for the tem
 For this extension, The templates can vary from as simple as
 
 ```
-"import ${moduleName} from '${modulePath}';"
+"import {${moduleName}} from '${modulePath}';"
 ```
 to
 ```
 [
-    "import ${moduleName} from '${modulePath}'"
+    "import {${moduleName}} from '${modulePath}'"
     "",
     "describe('${moduleName}', (){",
     "  it('', (){",
@@ -77,10 +77,10 @@ and can be as complex as
 ```
 {
     "Template for basic files": [
-        "import ${moduleName} from '${modulePath}'"
+        "import {${moduleName}} from '${modulePath}'"
     ],
     "Template for awesome files": [
-        "import ${moduleName} from '${modulePath}'",
+        "import {${moduleName}} from '${modulePath}'",
         "describe('${moduleName}', () {",
 	    "it('', () {",
 	    "",

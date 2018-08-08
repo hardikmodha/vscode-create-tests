@@ -2,7 +2,7 @@
     "name": "create-tests",
     "displayName": "Create tests",
     "description": "An extension to quickly generate test files.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "publisher": "hardikmodha",
     "homepage": "https://github.com/HardikModha/vscode-create-tests/blob/master/README.md",
     "author": {
@@ -155,7 +155,7 @@
                         "object"
                     ],
                     "default": [
-                        "import ${moduleName} from '${modulePath}';"
+                        "import {${moduleName}} from '${modulePath}';"
                     ],
                     "description": "Default template to use for all test file"
                 }
