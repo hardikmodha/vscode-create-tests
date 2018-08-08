@@ -37,7 +37,7 @@ Install and open [Visual Studio Code](https://code.visualstudio.com/). Press `Ct
  | `createTests.customLocationForTestFiles` | string | - | any valid path | Set this property in case you want to specify the custom location for test files.
  | `createTests.testFilesSuffix` | string | 'test' | any string value | Suffix to append for every created test file
   | `createTests.shouldSwitchToTestFile` | boolean | true | true \| false | Whether to switch to the created test file or not
-  | `createTests.template.default` | array \| object | `["import ${moduleName} from '${modulePath}';"]` | any string array or object |Default template to use for all test file
+  | `createTests.template.default` | array \| object | `["import {${moduleName}} from '${modulePath}';"]` | any string array or object |Default template to use for all test file
 | `createTests.template.*` | array \| object | - | string array or object |Language specific templates that you want to use.
 
 ## Template types

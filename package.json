@@ -155,7 +155,7 @@
                         "object"
                     ],
                     "default": [
-                        "import ${moduleName} from '${modulePath}';"
+                        "import {${moduleName}} from '${modulePath}';"
                     ],
                     "description": "Default template to use for all test file"
                 }
