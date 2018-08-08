@@ -1,6 +1,6 @@
 
 
-[vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests)
+[vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests) (v1.0.1)
 ====
 Quickly create test files for your JavaScript/Typescript/React projects with just one click.
 
@@ -59,12 +59,12 @@ When creating the test files, this extension reads the configuration for the tem
 For this extension, The templates can vary from as simple as
 
 ```
-"import ${moduleName} from '${modulePath}';"
+"import {${moduleName}} from '${modulePath}';"
 ```
 to
 ```
 [
-    "import ${moduleName} from '${modulePath}'"
+    "import {${moduleName}} from '${modulePath}'"
     "",
     "describe('${moduleName}', (){",
     "  it('', (){",
@@ -77,10 +77,10 @@ and can be as complex as
 ```
 {
     "Template for basic files": [
-        "import ${moduleName} from '${modulePath}'"
+        "import {${moduleName}} from '${modulePath}'"
     ],
     "Template for awesome files": [
-        "import ${moduleName} from '${modulePath}'",
+        "import {${moduleName}} from '${modulePath}'",
         "describe('${moduleName}', () {",
 	    "it('', () {",
 	    "",

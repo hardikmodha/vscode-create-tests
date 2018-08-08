@@ -49,7 +49,7 @@ export class TemplateManager {
         const importPath = path.join(path.relative(testFileDir, sourceFileDir), moduleName);
 
         return template.join("\n")
-            .replace(/\$\{moduleName\}/g, `{${moduleName}}`)
+            .replace(/\$\{moduleName\}/g, `${moduleName}`)
             .replace(/\$\{modulePath\}/g, `${importPath}`);
     }
 }
