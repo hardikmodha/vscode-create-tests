@@ -1,6 +1,6 @@
 
 
-[vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests) (v1.0.1)
+[vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests) (v1.1.0)
 ====
 Quickly create test files for your JavaScript/Typescript/React projects with just one click.
 
@@ -33,7 +33,7 @@ Install and open [Visual Studio Code](https://code.visualstudio.com/). Press `Ct
 |:---|:---|:---|:---|:---|
 | `createTests.defaultLocationForTestFiles` | string | `same location as source file` | 1. `same location as source file`, &nbsp;&nbsp;&nbsp; 2. `project root`|Location where you want to keep the test files. |
 | `createTests.sourceDir` | string | `src` | any string value | Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file. |
-| `createTests.testDirectoryName` | string | `tests` | any string value | Name of the directory which should contain all the test files.
+| `createTests.testDirectoryName` | string | `tests` | any string value (allows empty string) | Name of the directory which should contain all the test files. If this config option value is set to an empty string then it keeps the test file next to the source file.
  | `createTests.customLocationForTestFiles` | string | - | any valid path | Set this property in case you want to specify the custom location for test files.
  | `createTests.testFilesSuffix` | string | 'test' | any string value | Suffix to append for every created test file
   | `createTests.shouldSwitchToTestFile` | boolean | true | true \| false | Whether to switch to the created test file or not
