@@ -4,7 +4,7 @@ import {WorkspaceConfiguration} from "vscode";
 import {IConfiguration} from "../types";
 import {SourceFile} from "../SourceFile";
 import {getDirectoryPath, replaceSourceDir} from "../util";
-import {DEFAULT_TEST_DIRECTORY_NAME, DEFAULT_TEST_FILES_SUFFIX, DefaultLocationForTestFiles} from "../constants";
+import {DEFAULT_TEST_FILES_SUFFIX, DefaultLocationForTestFiles} from "../constants";
 import mkdirp = require("mkdirp");
 
 /**
@@ -13,7 +13,7 @@ import mkdirp = require("mkdirp");
 export class Configuration {
     private defaultConfiguration: IConfiguration = {
         defaultLocationForTestFiles: DefaultLocationForTestFiles.SAME_AS_SOURCE_FILE,
-        testDirectoryName: DEFAULT_TEST_DIRECTORY_NAME,
+        testDirectoryName: "",
         customTestFilesLocation: "",
         testFilesSuffix: DEFAULT_TEST_FILES_SUFFIX,
         shouldSwitchToTestFile: true,
