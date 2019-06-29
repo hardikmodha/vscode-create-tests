@@ -59,17 +59,17 @@ When creating the test files, this extension reads the configuration for the tem
 For this extension, The templates can vary from as simple as
 
 ```
-"import {${moduleName}} from '${modulePath}';"
+"import { ${moduleName} } from '${modulePath}';"
 ```
 to
 ```
 [
-    "import {${moduleName}} from '${modulePath}'"
+    "import { ${moduleName} } from '${modulePath}';"
     "",
-    "describe('${moduleName}', (){",
-    "  it('', (){",
+    "describe('${moduleName}', () => {",
+    "\tit('', () => {",
     "",
-    "  })",
+    "\t})",
     "})"
 ]
 ```
@@ -77,15 +77,15 @@ and can be as complex as
 ```
 {
     "Template for basic files": [
-        "import {${moduleName}} from '${modulePath}'"
+        "import { ${moduleName} } from '${modulePath}';"
     ],
     "Template for awesome files": [
-        "import {${moduleName}} from '${modulePath}'",
-        "describe('${moduleName}', () {",
-	    "it('', () {",
-	    "",
-	    "  })",
-	    "})"
+        "import { ${moduleName} } from '${modulePath}';",
+        "describe('${moduleName}', () => {",
+	"\tit('', () => {",
+	"",
+	"\t})",
+	"})"
     ]
 }
 ```
