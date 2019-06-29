@@ -179,7 +179,7 @@
         "@types/node": "^7.0.43",
         "tslint": "^5.10.0",
         "typescript": "^2.6.1",
-        "vscode": "^1.1.6"
+        "vscode": "^1.1.35"
     },
     "dependencies": {
         "@types/mkdirp": "^0.5.2",
