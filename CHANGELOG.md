@@ -1,4 +1,4 @@
-# Change Log
+# Changelog
 
 ## 1.1.0 (Aug 26, 2018)
 - Allow user to specify empty value as `testDirectoryName` configuration option. (#5)

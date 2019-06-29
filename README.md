@@ -1,6 +1,6 @@
 
 
-[vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests) (v1.1.0)
+[vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests) (v1.1.1)
 ====
 Quickly create test files for your JavaScript/Typescript/React projects with just one click.
 
