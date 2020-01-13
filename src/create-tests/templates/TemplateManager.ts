@@ -1,8 +1,8 @@
 import * as path from "path";
-import {workspace} from "vscode";
-import {SourceFile} from "../SourceFile";
-import {Template} from "../types";
-import {getDirectoryPath} from "../util";
+import { workspace } from "vscode";
+import { SourceFile } from "../SourceFile";
+import { Template } from "../types";
+import { getDirectoryPath } from "../util";
 
 /**
  * Class which defines methods to get file-template/code-snippets for the different type of files.
@@ -45,8 +45,8 @@ export class TemplateManager {
         const sourceFileDir = getDirectoryPath(sourceFile.getFilePathFromBaseDirectory());
         const moduleName = sourceFile.getNameWithoutExtension();
         const testFileDir = getDirectoryPath(testFilePathFromProjectRoot);
-
-        const importPath = path.join(path.relative(testFileDir, sourceFileDir), moduleName);
+        const relativePath = path.relative(testFileDir, sourceFileDir);
+        const importPath = [relativePath, moduleName].join('/');
 
         return template.join("\n")
             .replace(/\$\{moduleName\}/g, `${moduleName}`)
