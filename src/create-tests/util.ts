@@ -1,11 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
+import isWindows = require("is-windows");
 
 export const getDirectoryPath = (filePath: string): string => {
     const splitPath: string[] = filePath.split(path.sep);
     splitPath.pop(); // Remove the file name
 
-    return path.isAbsolute(filePath) ? path.join(path.sep, ...splitPath) : path.join(...splitPath);
+    return path.isAbsolute(filePath) && !isWindows() ? path.join(path.sep, ...splitPath) : path.join(...splitPath);
 };
 
 export const isDirectory = (filePath: string): boolean => {

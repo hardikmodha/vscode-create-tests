@@ -182,7 +182,9 @@
         "vscode": "^1.1.35"
     },
     "dependencies": {
+        "@types/is-windows": "^1.0.0",
         "@types/mkdirp": "^0.5.2",
+        "is-windows": "^1.0.2",
         "mkdirp": "^0.5.1"
     }
 }
