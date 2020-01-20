@@ -1,190 +1,304 @@
 {
-    "name": "create-tests",
-    "displayName": "Create tests",
-    "description": "An extension to quickly generate test files.",
-    "version": "1.1.1",
-    "publisher": "hardikmodha",
-    "homepage": "https://github.com/HardikModha/vscode-create-tests/blob/master/README.md",
-    "author": {
-        "name": "Hardik Modha",
-        "email": "hardikmodha22@gmail.com"
-    },
-    "engines": {
-        "vscode": "^1.24.0"
-    },
-    "categories": [
-        "Programming Languages",
-        "Snippets",
-        "Other"
+  "name": "create-tests",
+  "displayName": "Create tests",
+  "description": "An extension to quickly generate test files.",
+  "version": "1.1.1",
+  "publisher": "hardikmodha",
+  "homepage": "https://github.com/HardikModha/vscode-create-tests/blob/master/README.md",
+  "author": {
+    "name": "Hardik Modha",
+    "email": "hardikmodha22@gmail.com"
+  },
+  "engines": {
+    "vscode": "^1.24.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Other"
+  ],
+  "keywords": [
+    "code generator",
+    "tests",
+    "test file generator",
+    "create tests",
+    "create test file"
+  ],
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:javascript",
+    "onLanguage:typescriptreact",
+    "onLanguage:javascriptreact"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "createTests.create",
+        "title": "Create test file"
+      },
+      {
+        "command": "createStory.create",
+        "title": "Create story file"
+      }
     ],
-    "keywords": [
-        "code generator",
-        "tests",
-        "test file generator",
-        "create tests",
-        "create test file"
-    ],
-    "activationEvents": [
-        "onLanguage:typescript",
-        "onLanguage:javascript",
-        "onLanguage:typescriptreact",
-        "onLanguage:javascriptreact"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "createTests.create",
-                "title": "Create test file"
-            }
-        ],
-        "menus": {
-            "explorer/context": [
-                {
-                    "when": "resourceLangId == typescript",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                },
-                {
-                    "when": "resourceLangId == javascript",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                },
-                {
-                    "when": "resourceLangId == typescriptreact",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                },
-                {
-                    "when": "resourceLangId == javascriptreact",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                }
-            ],
-            "editor/title/context": [
-                {
-                    "when": "resourceLangId == typescript",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                },
-                {
-                    "when": "resourceLangId == javascript",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                },
-                {
-                    "when": "resourceLangId == typescriptreact",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                },
-                {
-                    "when": "resourceLangId == javascriptreact",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                }
-            ],
-            "editor/context": [
-                {
-                    "when": "resourceLangId == typescript",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                },
-                {
-                    "when": "resourceLangId == javascript",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                },
-                {
-                    "when": "resourceLangId == typescriptreact",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                },
-                {
-                    "when": "resourceLangId == javascriptreact",
-                    "command": "createTests.create",
-                    "group": "2_workspace"
-                }
-            ]
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceLangId == typescript",
+          "command": "createTests.create",
+          "group": "2_workspace"
         },
-        "configuration": {
-            "title": "Where to keep the test files?",
-            "properties": {
-                "createTests.defaultLocationForTestFiles": {
-                    "type": "string",
-                    "default": "same location as source file",
-                    "enum": [
-                        "same location as source file",
-                        "project root"
-                    ],
-                    "description": "Where to keep the created test files?"
-                },
-                "createTests.sourceDir": {
-                    "type": "string",
-                    "default": "src",
-                    "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file."
-                },
-                "createTests.testDirectoryName": {
-                    "type": "string",
-                    "default": "tests",
-                    "description": "Name of the test directory."
-                },
-                "createTests.customLocationForTestFiles": {
-                    "type": "string",
-                    "description": "Set this property in case you want to specify the custom location for test files."
-                },
-                "createTests.testFilesSuffix": {
-                    "type": "string",
-                    "default": "test",
-                    "description": "Suffix to use for the test files."
-                },
-                "createTests.shouldSwitchToTestFile": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Whether to switch to the test file or not after creating it."
-                },
-                "createTests.template.*": {
-                    "type": [
-                        "array",
-                        "object"
-                    ],
-                    "description": "Language specific templates that you want to use."
-                },
-                "createTests.template.default": {
-                    "type": [
-                        "array",
-                        "object"
-                    ],
-                    "default": [
-                        "import {${moduleName}} from '${modulePath}';"
-                    ],
-                    "description": "Default template to use for all test file"
-                }
-            }
+        {
+          "when": "resourceLangId == javascript",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescriptreact",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascriptreact",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescript",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascript",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescriptreact",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascriptreact",
+          "command": "createStory.create",
+          "group": "2_workspace"
         }
+      ],
+      "editor/title/context": [
+        {
+          "when": "resourceLangId == typescript",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascript",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescriptreact",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascriptreact",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescript",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascript",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescriptreact",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascriptreact",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "resourceLangId == typescript",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascript",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescriptreact",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascriptreact",
+          "command": "createTests.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescript",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascript",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescriptreact",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascriptreact",
+          "command": "createStory.create",
+          "group": "2_workspace"
+        }
+      ]
     },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/HardikModha/vscode-create-tests.git"
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "lint-ts": "tslint --config ./tslint.json --project ./tsconfig.json",
-        "test": "npm run lint-ts && npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "@types/mocha": "^2.2.42",
-        "@types/node": "^7.0.43",
-        "tslint": "^5.10.0",
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.35"
-    },
-    "dependencies": {
-        "@types/is-windows": "^1.0.0",
-        "@types/mkdirp": "^0.5.2",
-        "is-windows": "^1.0.2",
-        "mkdirp": "^0.5.1"
+    "configuration": {
+      "title": "Where to keep the test files?",
+      "properties": {
+        "createTests.defaultLocationForFiles": {
+          "type": "string",
+          "default": "same location as source file",
+          "enum": [
+            "same location as source file",
+            "project root"
+          ],
+          "description": "Where to keep the created test files?"
+        },
+        "createTests.sourceDir": {
+          "type": "string",
+          "default": "src",
+          "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file."
+        },
+        "createTests.directoryName": {
+          "type": "string",
+          "default": "__tests__",
+          "description": "Name of the test directory."
+        },
+        "createTests.customLocationForFiles": {
+          "type": "string",
+          "description": "Set this property in case you want to specify the custom location for test files."
+        },
+        "createTests.filesSuffix": {
+          "type": "string",
+          "default": "test",
+          "description": "Suffix to use for the test files."
+        },
+        "createTests.shouldSwitchToFile": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to switch to the test file or not after creating it."
+        },
+        "createTests.template.*": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "description": "Language specific templates that you want to use."
+        },
+        "createTests.template.default": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "default": [
+            "import {${moduleName}} from '${modulePath}';"
+          ],
+          "description": "Default template to use for all test file"
+        },
+        "createStory.defaultLocationForFiles": {
+          "type": "string",
+          "default": "same location as source file",
+          "enum": [
+            "same location as source file",
+            "project root"
+          ],
+          "description": "Where to keep the created story files?"
+        },
+        "createStory.sourceDir": {
+          "type": "string",
+          "default": "src",
+          "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the story file."
+        },
+        "createStory.directoryName": {
+          "type": "string",
+          "default": "stories",
+          "description": "Name of the story directory."
+        },
+        "createStory.customLocationForFiles": {
+          "type": "string",
+          "description": "Set this property in case you want to specify the custom location for story files."
+        },
+        "createStory.filesSuffix": {
+          "type": "string",
+          "default": "stories",
+          "description": "Suffix to use for the story files."
+        },
+        "createStory.shouldSwitchToFile": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to switch to the story file or not after creating it."
+        },
+        "createStory.template.*": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "description": "Language specific templates that you want to use."
+        },
+        "createStory.template.default": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "default": [
+            ""
+          ],
+          "description": "Default template to use for all story file"
+        }
+      }
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HardikModha/vscode-create-tests.git"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "lint-ts": "tslint --config ./tslint.json --project ./tsconfig.json",
+    "test": "npm run lint-ts && npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^7.0.43",
+    "tslint": "^5.10.0",
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.35"
+  },
+  "dependencies": {
+    "@types/is-windows": "^1.0.0",
+    "@types/mkdirp": "^0.5.2",
+    "is-windows": "^1.0.2",
+    "mkdirp": "^0.5.1"
+  }
 }
