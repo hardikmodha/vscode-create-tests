@@ -3,7 +3,7 @@ import { ConfigurationManager } from "./config/ConfigurationManager";
 import { CreationHelper } from "./CreationHelper";
 import { SourceFile } from "./SourceFile";
 import { FileType } from "./types";
-import { TestFileHelper } from "create-tests/TestFileHelper";
+import { TestFileHelper } from "./TestFileHelper";
 
 export class FileCreator {
   /**

@@ -9,14 +9,8 @@ export class ConfigurationManager {
     fileType: FileType
   ): Configuration {
     if (fileType === FileType.Story)
-      return new Configuration(
-        workspace.getConfiguration("createStory"),
-        sourceFile
-      );
+      return new Configuration(workspace.getConfiguration("createStory"));
 
-    return new Configuration(
-      workspace.getConfiguration("testRunner"),
-      sourceFile
-    );
+    return new Configuration(workspace.getConfiguration("testRunner"));
   }
 }

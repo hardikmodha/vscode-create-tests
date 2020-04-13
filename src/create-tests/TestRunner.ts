@@ -5,7 +5,7 @@ import { CreationHelper } from "./CreationHelper";
 import { SourceFile } from "./SourceFile";
 import { FileType } from "./types";
 import { createCommand, switchToFile } from "./utils";
-import { TestFileHelper } from "create-tests/TestFileHelper";
+import { TestFileHelper } from "./TestFileHelper";
 
 export class TestRunner {
   private terminal: vscode.Terminal | null = null;
