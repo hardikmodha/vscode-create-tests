@@ -11,6 +11,9 @@ export class ConfigurationManager {
     if (fileType === FileType.Story)
       return new Configuration(workspace.getConfiguration("createStory"));
 
-    return new Configuration(workspace.getConfiguration("testRunner"));
+    return new Configuration(
+      workspace.getConfiguration("testRunner"),
+      sourceFile.getExtension()
+    );
   }
 }

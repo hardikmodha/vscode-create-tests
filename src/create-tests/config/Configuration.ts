@@ -6,6 +6,7 @@ import { SourceFile } from "../SourceFile";
 import {
   DEFAULT_TEST_FILES_SUFFIX,
   DefaultLocationForTestFiles,
+  DEFAULT_DIR_NAME,
 } from "../constants";
 
 /**
@@ -14,31 +15,46 @@ import {
 export class Configuration {
   private defaultConfiguration: IConfiguration = {
     defaultLocationForFiles: DefaultLocationForTestFiles.SAME_AS_SOURCE_FILE,
-    directoryName: "",
+    directoryName: DEFAULT_DIR_NAME,
     customTestFilesLocation: "",
     filesSuffix: DEFAULT_TEST_FILES_SUFFIX,
+    fileSuffixType: "append",
     shouldSwitchToFile: true,
     sourceDir: "src",
     supportedExtension: [],
     tasks: [],
     watchCommands: [],
+    configs: [],
   };
 
   private workspaceConfig: WorkspaceConfiguration;
-  // private sourceFile: SourceFile;
 
-  constructor(config: WorkspaceConfiguration, sourceFile: SourceFile) {
+  constructor(config: WorkspaceConfiguration, extension?: string) {
     this.workspaceConfig = config;
-    // this.sourceFile = sourceFile;
+    // extension used for testRunner only
+    if (!extension) return;
+    const configByExtension = this.getConfigs().find((x) =>
+      x.supportedExtension.includes(extension)
+    );
+    if (!configByExtension) {
+      vscode.window.showErrorMessage(
+        "File extension not supported, to support the extension add an entry to testRunner.configs."
+      );
+    } else {
+      this.defaultConfiguration = {
+        ...this.defaultConfiguration,
+        ...configByExtension,
+      };
+    }
   }
 
   /**
    * Helper method to return the default value. Handles the cases of empty string.
    */
-  private getConfigValue(key: string, defaultValue: any) {
-    const value: string | undefined = this.workspaceConfig.get(key);
+  private getConfigValue<T>(key: string, defaultValue: T) {
+    const value = this.workspaceConfig.get<T>(key);
 
-    return value && value.length > 0 ? value : defaultValue;
+    return value ? value : defaultValue;
   }
 
   getTasks(): TestTask[] {
@@ -67,10 +83,21 @@ export class Configuration {
     );
   }
 
+  getConfigs() {
+    return this.getConfigValue("configs", this.defaultConfiguration.configs);
+  }
+
   getTestFilesSuffix(): string {
     return this.getConfigValue(
       "filesSuffix",
       this.defaultConfiguration.filesSuffix
+    );
+  }
+
+  getTestFileSuffixType() {
+    return this.getConfigValue(
+      "fileSuffixType",
+      this.defaultConfiguration.fileSuffixType
     );
   }
 

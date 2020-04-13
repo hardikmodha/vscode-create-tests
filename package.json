@@ -237,144 +237,154 @@
     "configuration": {
       "title": "Where to keep the test files?",
       "properties": {
-        "testRunner.defaultLocationForFiles": {
-          "type": "string",
-          "default": "same location as source file",
-          "enum": [
-            "same location as source file",
-            "project root"
-          ],
-          "description": "Where to keep the created test files?"
-        },
-        "testRunner.sourceDir": {
-          "type": "string",
-          "default": "src",
-          "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file."
-        },
-        "testRunner.directoryName": {
-          "type": "string",
-          "default": "__tests__",
-          "description": "Name of the test directory."
-        },
-        "testRunner.customLocationForFiles": {
-          "type": "string",
-          "description": "Set this property in case you want to specify the custom location for test files."
-        },
-        "testRunner.filesSuffix": {
-          "type": "string",
-          "default": "test",
-          "description": "Suffix to use for the test files."
-        },
-        "testRunner.shouldSwitchToFile": {
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to switch to the test file or not after creating it."
-        },
-        "testRunner.template.*": {
-          "type": [
-            "array",
-            "object"
-          ],
-          "description": "Language specific templates that you want to use."
-        },
-        "testRunner.template.default": {
-          "type": [
-            "array",
-            "object"
-          ],
-          "default": [
-            ""
-          ],
-          "description": "Default template to use for all test file"
-        },
-        "testRunner.framework": {
-          "type": "string",
-          "default": "jest",
-          "description": "Test framework"
-        },
-        "testRunner.useForwardSlash": {
-          "type": "boolean",
-          "default": "jest",
-          "description": "If set to true will make backslash to forward slash, useful for windows and jest."
-        },
-        "testRunner.supportedExtension": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": [
-            "ts",
-            "tsx",
-            "js",
-            "jsx",
-            "cs"
-          ],
-          "description": "Test supported Extension"
-        },
-        "testRunner.watchCommands": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": [
-            "--watch",
-            "dotnet watch"
-          ],
-          "description": "If file created for the firs time test will not run,unless a watch command detected."
-        },
-        "testRunner.tasks": {
+        "testRunner.configs": {
           "type": "array",
           "items": {
             "type": "object",
-            "title": "task",
             "properties": {
-              "label": {
+              "defaultLocationForFiles": {
                 "type": "string",
-                "description": "Name of task"
+                "default": "same location as source file",
+                "enum": [
+                  "same location as source file",
+                  "project root"
+                ],
+                "description": "Where to keep the created test files?"
               },
-              "args": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "title": "task"
-                },
-                "description": "Arguments to pass to test"
+              "sourceDir": {
+                "type": "string",
+                "default": "src",
+                "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file."
               },
-              "useForwardSlash": {
-                "type": "boolean",
-                "default": true,
-                "description": "Will convert back slash to forward slash, Required for jest when running in windows"
+              "directoryName": {
+                "type": "string",
+                "default": "__tests__",
+                "description": "Name of the test directory."
               },
-              "usePathFromBaseDirectory": {
-                "type": "boolean",
-                "default": true,
-                "description": "When set to true the workspace root path will be removed, Required for jest"
+              "customLocationForFiles": {
+                "type": "string",
+                "description": "Set this property in case you want to specify the custom location for test files."
+              },
+              "filesSuffix": {
+                "type": "string",
+                "default": "test",
+                "description": "Suffix to use for the test files."
+              },
+              "fileSuffixType": {
+                "type": "string",
+                "enum": [
+                  "extension",
+                  "append"
+                ],
+                "description": "Options are 'extension' and 'append', if extension 'filesSuffix' will be added as extension, if append 'filesSuffix' will be appended to file name."
               },
               "shouldSwitchToFile": {
                 "type": "boolean",
                 "default": true,
-                "description": "Whether to switch to the test file or not."
+                "description": "Whether to switch to the test file or not after creating it."
               },
-              "openInNewTerminal": {
+              "template.*": {
+                "type": [
+                  "array",
+                  "object"
+                ],
+                "description": "Language specific templates that you want to use."
+              },
+              "template.default": {
+                "type": [
+                  "array",
+                  "object"
+                ],
+                "default": [
+                  ""
+                ],
+                "description": "Default template to use for all test file"
+              },
+              "useForwardSlash": {
                 "type": "boolean",
                 "default": true,
-                "description": "Will open new terminal for each run."
+                "description": "If set to true will make backslash to forward slash, useful for windows and jest."
               },
-              "command": {
-                "type": "string",
-                "default": "jest"
+              "supportedExtension": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "ts",
+                  "tsx",
+                  "js",
+                  "jsx"
+                ],
+                "description": "Test supported Extension"
               },
-              "default": {
-                "type": "boolean",
-                "description": "When unable to detect task, will run task with default set to true"
+              "watchCommands": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "--watch",
+                  "dotnet watch"
+                ],
+                "description": "If file created for the firs time test will not run,unless a watch command detected."
+              },
+              "tasks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "title": "task",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "description": "Name of task"
+                    },
+                    "args": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "title": "task"
+                      },
+                      "description": "Arguments to pass to test"
+                    },
+                    "useForwardSlash": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Will convert back slash to forward slash, Required for jest when running in windows"
+                    },
+                    "usePathFromBaseDirectory": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "When set to true the workspace root path will be removed, Required for jest"
+                    },
+                    "shouldSwitchToFile": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Whether to switch to the test file or not."
+                    },
+                    "openInNewTerminal": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Will open new terminal for each run."
+                    },
+                    "command": {
+                      "type": "string",
+                      "default": "jest"
+                    },
+                    "default": {
+                      "type": "boolean",
+                      "description": "When unable to detect task, will run task with default set to true"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "command"
+                  ]
+                },
+                "description": "Whether to switch to the story file or not after creating it."
               }
-            },
-            "required": [
-              "label",
-              "command"
-            ]
-          },
-          "description": "Whether to switch to the story file or not after creating it."
+            }
+          }
         },
         "createStory.defaultLocationForFiles": {
           "type": "string",

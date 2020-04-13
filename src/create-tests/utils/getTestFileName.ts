@@ -11,10 +11,21 @@ export const getTestFileName = (
   config: Configuration
 ) => {
   const suffix: string = config.getTestFilesSuffix();
+  const fileSuffixType = config.getTestFileSuffixType();
 
-  return [
-    sourceFile.getNameWithoutExtension(),
-    suffix,
-    sourceFile.getExtension(),
-  ].join(".");
+  let fileName = sourceFile.getNameWithoutExtension();
+
+  if (fileSuffixType === "append") {
+    fileName += suffix;
+  }
+
+  const stringBuilder = [fileName];
+
+  if (suffix && fileSuffixType === "extension") {
+    stringBuilder.push(suffix);
+  }
+
+  stringBuilder.push(sourceFile.getExtension());
+
+  return stringBuilder.join(".");
 };

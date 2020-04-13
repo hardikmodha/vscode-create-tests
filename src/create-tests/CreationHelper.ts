@@ -88,23 +88,20 @@ export class CreationHelper {
    */
   writeContentToFile(filePath: string, fileType: FileType): Thenable<boolean> {
     return this.getTemplate(fileType).then((content: string[]) => {
+      let stringTemplate: string = "";
       if (content.length > 0) {
-        const stringTemplate: string = TemplateManager.replacePlaceHolders(
+        stringTemplate = TemplateManager.replacePlaceHolders(
           this.sourceFile,
           filePath,
           content
         );
-
-        fs.writeFile(filePath, stringTemplate, (err) => {
-          if (err) {
-            throw err;
-          }
-        });
-
-        return true;
       }
-
-      return false;
+      fs.writeFile(filePath, stringTemplate, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+      return true;
     });
   }
 

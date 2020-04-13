@@ -12,6 +12,7 @@ export interface TestTask {
 
 export interface IConfiguration {
   filesSuffix: string;
+  fileSuffixType: "extension" | "append";
   directoryName: string;
   customTestFilesLocation: string;
   defaultLocationForFiles: DefaultLocationForTestFiles;
@@ -20,7 +21,7 @@ export interface IConfiguration {
   tasks: TestTask[];
   supportedExtension: string[];
   watchCommands: string[];
-  // configs: IConfiguration[];
+  configs: IConfiguration[];
 }
 
 export type Template = string[] | { [key: string]: string[] };
