@@ -5,6 +5,7 @@ import { CreationHelper } from "./CreationHelper";
 import { SourceFile } from "./SourceFile";
 import { FileType } from "./types";
 import { createCommand, switchToFile } from "./utils";
+import { TestFileHelper } from "create-tests/TestFileHelper";
 
 export class TestRunner {
   private terminal: vscode.Terminal | null = null;
@@ -40,9 +41,12 @@ export class TestRunner {
     }
 
     let newCreated = false;
-    if (!fs.existsSync(configs.getTestFileAbsolutePath())) {
+
+    const testFileHelper = new TestFileHelper(configs, sourceFile);
+
+    if (!fs.existsSync(testFileHelper.getTestFileAbsolutePath())) {
       try {
-        const helper = new CreationHelper(sourceFile, configs);
+        const helper = new CreationHelper(sourceFile, configs, testFileHelper);
         helper.createTestFile(fileType);
       } catch (error) {
         vscode.window.showErrorMessage(error.message);
@@ -51,8 +55,8 @@ export class TestRunner {
       newCreated = true;
     }
 
-    const parentSourceFile = configs.getParentSourceFile(sourceFile);
-    const testFileSource = configs.getTestSourceFile();
+    const parentSourceFile = testFileHelper.getParentSourceFile(sourceFile);
+    const testFileSource = testFileHelper.getTestSourceFile();
 
     const command = createCommand(
       parentSourceFile.getAbsolutePath(),

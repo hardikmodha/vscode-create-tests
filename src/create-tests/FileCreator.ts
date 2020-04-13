@@ -3,6 +3,7 @@ import { ConfigurationManager } from "./config/ConfigurationManager";
 import { CreationHelper } from "./CreationHelper";
 import { SourceFile } from "./SourceFile";
 import { FileType } from "./types";
+import { TestFileHelper } from "create-tests/TestFileHelper";
 
 export class FileCreator {
   /**
@@ -20,7 +21,12 @@ export class FileCreator {
         sourceFile,
         fileType
       );
-      const helper = new CreationHelper(sourceFile, configs);
+
+      const helper = new CreationHelper(
+        sourceFile,
+        configs,
+        new TestFileHelper(configs, sourceFile)
+      );
       helper.createTestFile(fileType);
     } catch (error) {
       vscode.window.showErrorMessage(error.message);

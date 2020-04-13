@@ -6,7 +6,7 @@ import { Configuration } from "./config/Configuration";
 import { SourceFile } from "./SourceFile";
 import { TemplateManager } from "./templates/TemplateManager";
 import { Template, FileType } from "./types";
-
+import { TestFileHelper } from "./TestFileHelper";
 import mkdirp = require("mkdirp");
 
 /**
@@ -16,17 +16,23 @@ import mkdirp = require("mkdirp");
 export class CreationHelper {
   private sourceFile: SourceFile;
   private configuration: Configuration;
+  testFileHelper: TestFileHelper;
 
-  constructor(sourceFile: SourceFile, configuration: Configuration) {
+  constructor(
+    sourceFile: SourceFile,
+    configuration: Configuration,
+    testFileHelper: TestFileHelper
+  ) {
     this.sourceFile = sourceFile;
     this.configuration = configuration;
+    this.testFileHelper = testFileHelper;
   }
 
   /**
    * Main method to create a test file.
    */
   createTestFile(fileType: FileType) {
-    let testDirPath = this.configuration.getTestFilesLocation();
+    let testDirPath = this.testFileHelper.getTestFilesLocation();
 
     if (
       !isTestDirectory(this.configuration.getTestDirectoryName(), testDirPath)
