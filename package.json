@@ -34,34 +34,58 @@
   "contributes": {
     "commands": [
       {
-        "command": "createTests.create",
+        "command": "testRunner.create",
         "title": "Create test file"
       },
       {
         "command": "createStory.create",
         "title": "Create story file"
+      },
+      {
+        "command": "testRunner.test",
+        "title": "Test this file"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "when": "resourceLangId == typescript",
-          "command": "createTests.create",
+          "command": "testRunner.create",
           "group": "2_workspace"
         },
         {
           "when": "resourceLangId == javascript",
-          "command": "createTests.create",
+          "command": "testRunner.create",
           "group": "2_workspace"
         },
         {
           "when": "resourceLangId == typescriptreact",
-          "command": "createTests.create",
+          "command": "testRunner.create",
           "group": "2_workspace"
         },
         {
           "when": "resourceLangId == javascriptreact",
-          "command": "createTests.create",
+          "command": "testRunner.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescript",
+          "command": "testRunner.test",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascript",
+          "command": "testRunner.test",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescriptreact",
+          "command": "testRunner.test",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascriptreact",
+          "command": "testRunner.test",
           "group": "2_workspace"
         },
         {
@@ -88,22 +112,42 @@
       "editor/title/context": [
         {
           "when": "resourceLangId == typescript",
-          "command": "createTests.create",
+          "command": "testRunner.create",
           "group": "2_workspace"
         },
         {
           "when": "resourceLangId == javascript",
-          "command": "createTests.create",
+          "command": "testRunner.create",
           "group": "2_workspace"
         },
         {
           "when": "resourceLangId == typescriptreact",
-          "command": "createTests.create",
+          "command": "testRunner.create",
           "group": "2_workspace"
         },
         {
           "when": "resourceLangId == javascriptreact",
-          "command": "createTests.create",
+          "command": "testRunner.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescript",
+          "command": "testRunner.test",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascript",
+          "command": "testRunner.test",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescriptreact",
+          "command": "testRunner.test",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascriptreact",
+          "command": "testRunner.test",
           "group": "2_workspace"
         },
         {
@@ -130,22 +174,42 @@
       "editor/context": [
         {
           "when": "resourceLangId == typescript",
-          "command": "createTests.create",
+          "command": "testRunner.create",
           "group": "2_workspace"
         },
         {
           "when": "resourceLangId == javascript",
-          "command": "createTests.create",
+          "command": "testRunner.create",
           "group": "2_workspace"
         },
         {
           "when": "resourceLangId == typescriptreact",
-          "command": "createTests.create",
+          "command": "testRunner.create",
           "group": "2_workspace"
         },
         {
           "when": "resourceLangId == javascriptreact",
-          "command": "createTests.create",
+          "command": "testRunner.create",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescript",
+          "command": "testRunner.test",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascript",
+          "command": "testRunner.test",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == typescriptreact",
+          "command": "testRunner.test",
+          "group": "2_workspace"
+        },
+        {
+          "when": "resourceLangId == javascriptreact",
+          "command": "testRunner.test",
           "group": "2_workspace"
         },
         {
@@ -173,7 +237,7 @@
     "configuration": {
       "title": "Where to keep the test files?",
       "properties": {
-        "createTests.defaultLocationForFiles": {
+        "testRunner.defaultLocationForFiles": {
           "type": "string",
           "default": "same location as source file",
           "enum": [
@@ -182,46 +246,135 @@
           ],
           "description": "Where to keep the created test files?"
         },
-        "createTests.sourceDir": {
+        "testRunner.sourceDir": {
           "type": "string",
           "default": "src",
           "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file."
         },
-        "createTests.directoryName": {
+        "testRunner.directoryName": {
           "type": "string",
           "default": "__tests__",
           "description": "Name of the test directory."
         },
-        "createTests.customLocationForFiles": {
+        "testRunner.customLocationForFiles": {
           "type": "string",
           "description": "Set this property in case you want to specify the custom location for test files."
         },
-        "createTests.filesSuffix": {
+        "testRunner.filesSuffix": {
           "type": "string",
           "default": "test",
           "description": "Suffix to use for the test files."
         },
-        "createTests.shouldSwitchToFile": {
+        "testRunner.shouldSwitchToFile": {
           "type": "boolean",
           "default": true,
           "description": "Whether to switch to the test file or not after creating it."
         },
-        "createTests.template.*": {
+        "testRunner.template.*": {
           "type": [
             "array",
             "object"
           ],
           "description": "Language specific templates that you want to use."
         },
-        "createTests.template.default": {
+        "testRunner.template.default": {
           "type": [
             "array",
             "object"
           ],
           "default": [
-            "import {${moduleName}} from '${modulePath}';"
+            ""
           ],
           "description": "Default template to use for all test file"
+        },
+        "testRunner.framework": {
+          "type": "string",
+          "default": "jest",
+          "description": "Test framework"
+        },
+        "testRunner.useForwardSlash": {
+          "type": "boolean",
+          "default": "jest",
+          "description": "If set to true will make backslash to forward slash, useful for windows and jest."
+        },
+        "testRunner.supportedExtension": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "ts",
+            "tsx",
+            "js",
+            "jsx",
+            "cs"
+          ],
+          "description": "Test supported Extension"
+        },
+        "testRunner.watchCommands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "--watch",
+            "dotnet watch"
+          ],
+          "description": "If file created for the firs time test will not run,unless a watch command detected."
+        },
+        "testRunner.tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "title": "task",
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "Name of task"
+              },
+              "args": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "title": "task"
+                },
+                "description": "Arguments to pass to test"
+              },
+              "useForwardSlash": {
+                "type": "boolean",
+                "default": true,
+                "description": "Will convert back slash to forward slash, Required for jest when running in windows"
+              },
+              "usePathFromBaseDirectory": {
+                "type": "boolean",
+                "default": true,
+                "description": "When set to true the workspace root path will be removed, Required for jest"
+              },
+              "shouldSwitchToFile": {
+                "type": "boolean",
+                "default": true,
+                "description": "Whether to switch to the test file or not."
+              },
+              "openInNewTerminal": {
+                "type": "boolean",
+                "default": true,
+                "description": "Will open new terminal for each run."
+              },
+              "command": {
+                "type": "string",
+                "default": "jest"
+              },
+              "default": {
+                "type": "boolean",
+                "description": "When unable to detect task, will run task with default set to true"
+              }
+            },
+            "required": [
+              "label",
+              "command"
+            ]
+          },
+          "description": "Whether to switch to the story file or not after creating it."
         },
         "createStory.defaultLocationForFiles": {
           "type": "string",
@@ -292,7 +445,7 @@
     "@types/mocha": "^2.2.42",
     "@types/node": "^7.0.43",
     "tslint": "^5.10.0",
-    "typescript": "^2.6.1",
+    "typescript": "^3.8.3",
     "vscode": "^1.1.35"
   },
   "dependencies": {

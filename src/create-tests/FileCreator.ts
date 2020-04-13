@@ -4,9 +4,9 @@ import { CreationHelper } from "./CreationHelper";
 import { SourceFile } from "./SourceFile";
 import { FileType } from "./types";
 
-export class TestFileCreator {
+export class FileCreator {
   /**
-   * This is the entry point when the "createTests.create","createStory.create" command gets executed.
+   * This is the entry point when the "testRunner.create","createStory.create" command gets executed.
    * @param args {@link Uri} of the source file
    */
   static createFor(args: vscode.Uri, fileType: FileType) {

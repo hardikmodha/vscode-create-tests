@@ -1,5 +1,15 @@
 import { DefaultLocationForTestFiles } from "./constants";
 
+export interface TestTask {
+  label: string;
+  args?: string[];
+  useForwardSlash: boolean;
+  command: string;
+  default: boolean;
+  shouldSwitchToFile: boolean;
+  openInNewTerminal: boolean;
+}
+
 export interface IConfiguration {
   filesSuffix: string;
   directoryName: string;
@@ -7,11 +17,15 @@ export interface IConfiguration {
   defaultLocationForFiles: DefaultLocationForTestFiles;
   shouldSwitchToFile: boolean;
   sourceDir: string;
+  tasks: TestTask[];
+  supportedExtension: string[];
+  watchCommands: string[];
+  // configs: IConfiguration[];
 }
 
 export type Template = string[] | { [key: string]: string[] };
 
 export enum FileType {
-  Story,
-  Test
+  Story = "story",
+  Test = "test",
 }

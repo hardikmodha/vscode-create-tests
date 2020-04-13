@@ -15,7 +15,7 @@ export class ConfigurationManager {
       );
 
     return new Configuration(
-      workspace.getConfiguration("createTests"),
+      workspace.getConfiguration("testRunner"),
       sourceFile
     );
   }

@@ -1,23 +1,33 @@
 "use strict";
 import * as vscode from "vscode";
-import { TestFileCreator } from "./create-tests/TestFileCreator";
+import { FileCreator } from "./create-tests/FileCreator";
+import { TestRunner } from "./create-tests/TestRunner";
 import { FileType } from "./create-tests/types";
 
 export function activate(context: vscode.ExtensionContext) {
   const disposableTest = vscode.commands.registerCommand(
-    "createTests.create",
+    "testRunner.create",
     (sourceFile: vscode.Uri) => {
-      TestFileCreator.createFor(sourceFile, FileType.Test);
+      FileCreator.createFor(sourceFile, FileType.Test);
     }
   );
+
+  const testRunnerInstance = new TestRunner();
 
   const disposableStory = vscode.commands.registerCommand(
     "createStory.create",
     (sourceFile: vscode.Uri) => {
-      TestFileCreator.createFor(sourceFile, FileType.Story);
+      FileCreator.createFor(sourceFile, FileType.Story);
+    }
+  );
+  const testRunner = vscode.commands.registerCommand(
+    "testRunner.test",
+    (sourceFile: vscode.Uri) => {
+      testRunnerInstance.run(sourceFile, FileType.Test);
     }
   );
 
+  context.subscriptions.push(testRunner);
   context.subscriptions.push(disposableTest);
   context.subscriptions.push(disposableStory);
 }

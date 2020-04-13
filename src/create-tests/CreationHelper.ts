@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Uri, window } from "vscode";
-
+import { window } from "vscode";
+import { getTestFileName, isTestDirectory, switchToFile } from "./utils";
 import { Configuration } from "./config/Configuration";
 import { SourceFile } from "./SourceFile";
 import { TemplateManager } from "./templates/TemplateManager";
@@ -28,16 +28,22 @@ export class CreationHelper {
   createTestFile(fileType: FileType) {
     let testDirPath = this.configuration.getTestFilesLocation();
 
-    if (this.shouldCreateTestDirectory(testDirPath)) {
+    if (
+      !isTestDirectory(this.configuration.getTestDirectoryName(), testDirPath)
+    ) {
       testDirPath = this.createTestDirectoryIfNotExists(testDirPath);
     }
 
-    const fileName = this.getTestFileName();
+    if (!fs.existsSync(testDirPath)) {
+      mkdirp.sync(testDirPath);
+    }
+
+    const fileName = getTestFileName(this.sourceFile, this.configuration);
     const testFilePath = path.join(testDirPath, fileName);
 
     // If test file already exists then display an error and open the existing test file.
     if (fs.existsSync(testFilePath)) {
-      this.switchToTestFile(testFilePath);
+      switchToFile(testFilePath);
 
       throw new Error(
         `File already exists at ${this.getRelativePath(testFilePath)}.`
@@ -48,7 +54,7 @@ export class CreationHelper {
     this.writeContentToFile(testFilePath, fileType).then((success: boolean) => {
       if (success) {
         if (this.configuration.shouldSwitchToFile()) {
-          this.switchToTestFile(testFilePath);
+          switchToFile(testFilePath);
         }
 
         window.showInformationMessage("File has been created successfully.");
@@ -63,29 +69,6 @@ export class CreationHelper {
     mkdirp.sync(pathToTestDir);
 
     return pathToTestDir;
-  }
-
-  // When file path already contains test directory name, don't create the test directory again.
-  private shouldCreateTestDirectory(dirPath: string): boolean {
-    return (
-      dirPath.indexOf(
-        path.sep + this.configuration.getTestDirectoryName() + path.sep
-      ) === -1
-    );
-  }
-
-  /**
-   * Returns the name of the test file to be created. The implementation returns the test file name as
-   * <fileName without extension>[dot]<suffix defined in configuration>[dot]<source file extension>
-   */
-  getTestFileName(): string {
-    const suffix: string = this.configuration.getTestFilesSuffix();
-
-    return [
-      this.sourceFile.getNameWithoutExtension(),
-      suffix,
-      this.sourceFile.getExtension()
-    ].join(".");
   }
 
   getRelativePath(testFilePath: string): string {
@@ -106,7 +89,7 @@ export class CreationHelper {
           content
         );
 
-        fs.writeFile(filePath, stringTemplate, err => {
+        fs.writeFile(filePath, stringTemplate, (err) => {
           if (err) {
             throw err;
           }
@@ -116,14 +99,6 @@ export class CreationHelper {
       }
 
       return false;
-    });
-  }
-
-  switchToTestFile(filePath: string) {
-    window.showTextDocument(Uri.file(filePath)).then(err => {
-      if (err) {
-        throw err;
-      }
     });
   }
 
@@ -143,7 +118,7 @@ export class CreationHelper {
     }
 
     // ...else display all the available options to user and let him/her choose the template.
-    return window.showQuickPick(Object.keys(template)).then(selected => {
+    return window.showQuickPick(Object.keys(template)).then((selected) => {
       return selected
         ? (template as any)[selected]
         : TemplateManager.getDefaultTemplate(fileType);
