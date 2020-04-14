@@ -1,8 +1,8 @@
-# [vscode-create-tests](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests) (v1.1.1)
+# [vscode-file-generator](https://marketplace.visualstudio.com/items?itemName=hardikmodha.file-generator) (v1.1.1)
 
 Quickly create test files for your JavaScript/Typescript/React projects with just one click.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/HardikModha/vscode-create-tests/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/HardikModha/vscode-file-generator/blob/master/LICENSE)
 
 ### Motivation
 
@@ -21,22 +21,22 @@ While working on a project in my organization, We followed a pattern to keep tes
 
 ## How to use this extension?
 
-Install and open [Visual Studio Code](https://code.visualstudio.com/). Press `Ctrl+Shift+X` or `Cmd+Shift+X` to open the Extensions pane. Type `create tests` in the search box and hit enter. You can also install the extension from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=hardikmodha.create-tests). Currently, It supports Typescript and Javascript files. (Supported file extensions: `.ts`, `.tsx`, `.js`, `.jsx`)
+Install and open [Visual Studio Code](https://code.visualstudio.com/). Press `Ctrl+Shift+X` or `Cmd+Shift+X` to open the Extensions pane. Type `create tests` in the search box and hit enter. You can also install the extension from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=hardikmodha.file-generator). Currently, It supports Typescript and Javascript files. (Supported file extensions: `.ts`, `.tsx`, `.js`, `.jsx`)
 
 ![Demo](https://media.giphy.com/media/1iqPhENd8SLd9SggeX/giphy.gif)
 
 ## Configuration options
 
-| Property                             | Type            | Default                                            | Allowed Values                                                          | Description                                                                                                                                                               |
-| :----------------------------------- | :-------------- | :------------------------------------------------- | :---------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `testRunner.defaultLocationForFiles` | string          | `same location as source file`                     | 1. `same location as source file`, &nbsp;&nbsp;&nbsp; 2. `project root` | Location where you want to keep the test files.                                                                                                                           |
-| `testRunner.sourceDir`               | string          | `src`                                              | any string value                                                        | Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file.                               |
-| `testRunner.directoryName`           | string          | `tests`                                            | any string value (allows empty string)                                  | Name of the directory which should contain all the test files. If this config option value is set to an empty string then it keeps the test file next to the source file. |
-| `testRunner.customLocationForFiles`  | string          | -                                                  | any valid path                                                          | Set this property in case you want to specify the custom location for test files.                                                                                         |
-| `testRunner.filesSuffix`             | string          | 'test'                                             | any string value                                                        | Suffix to append for every created test file                                                                                                                              |
-| `testRunner.shouldSwitchToFile`      | boolean         | true                                               | true \| false                                                           | Whether to switch to the created test file or not                                                                                                                         |
-| `testRunner.template.default`        | array \| object | `["import {${moduleName}} from '${modulePath}';"]` | any string array or object                                              | Default template to use for all test file                                                                                                                                 |
-| `testRunner.template.*`              | array \| object | -                                                  | string array or object                                                  | Language specific templates that you want to use.                                                                                                                         |
+| Property                                | Type            | Default                                            | Allowed Values                                                          | Description                                                                                                                                                               |
+| :-------------------------------------- | :-------------- | :------------------------------------------------- | :---------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `fileGenerator.defaultLocationForFiles` | string          | `same location as source file`                     | 1. `same location as source file`, &nbsp;&nbsp;&nbsp; 2. `project root` | Location where you want to keep the test files.                                                                                                                           |
+| `fileGenerator.sourceDir`               | string          | `src`                                              | any string value                                                        | Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file.                               |
+| `fileGenerator.directoryName`           | string          | `tests`                                            | any string value (allows empty string)                                  | Name of the directory which should contain all the test files. If this config option value is set to an empty string then it keeps the test file next to the source file. |
+| `fileGenerator.customLocationForFiles`  | string          | -                                                  | any valid path                                                          | Set this property in case you want to specify the custom location for test files.                                                                                         |
+| `fileGenerator.filesSuffix`             | string          | 'test'                                             | any string value                                                        | Suffix to append for every created test file                                                                                                                              |
+| `fileGenerator.shouldSwitchToFile`      | boolean         | true                                               | true \| false                                                           | Whether to switch to the created test file or not                                                                                                                         |
+| `fileGenerator.template.default`        | array \| object | `["import {${moduleName}} from '${modulePath}';"]` | any string array or object                                              | Default template to use for all test file                                                                                                                                 |
+| `fileGenerator.template.*`              | array \| object | -                                                  | string array or object                                                  | Language specific templates that you want to use.                                                                                                                         |
 
 ## Template types
 
@@ -44,12 +44,12 @@ Templates are used to initialize test files with default content. It eases the t
 
 ### 1. Default template
 
-The default template for any file can be specified by overriding the configuration `testRunner.template.default`.
+The default template for any file can be specified by overriding the configuration `fileGenerator.template.default`.
 Default value for this template is: `"import ${moduleName} from '${modulePath}';"` Here, `moduleName` and `modulePath` are special placeholders, which gets replaces with the source file name and the relative path to the source file respectively.
 
 ### 2. Language-specific templates
 
-When creating the test files, this extension reads the configuration for the template specified by `testRunner.template.<file-extension>`. So if your file name is `MyFile.js` then the extension will read the configuration `testRunner.template.js` for the template. If it finds one then it will write the content of the template into the created test file.
+When creating the test files, this extension reads the configuration for the template specified by `fileGenerator.template.<file-extension>`. So if your file name is `MyFile.js` then the extension will read the configuration `fileGenerator.template.js` for the template. If it finds one then it will write the content of the template into the created test file.
 
 **Note**: Language-specific templates have higher priority over the default template.
 

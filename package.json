@@ -1,13 +1,13 @@
 {
-  "name": "create-tests",
-  "displayName": "Create tests",
-  "description": "An extension to quickly generate test files.",
+  "name": "file-generator",
+  "displayName": "Generator File",
+  "description": "An extension to quickly generate new file base on the original file with new extension or .",
   "version": "1.1.1",
-  "publisher": "hardikmodha",
-  "homepage": "https://github.com/HardikModha/vscode-create-tests/blob/master/README.md",
+  "publisher": "m.doaie",
+  "homepage": "https://github.com/HardikModha/vscode-file-generator/blob/master/README.md",
   "author": {
-    "name": "Hardik Modha",
-    "email": "hardikmodha22@gmail.com"
+    "name": "mo doaie",
+    "email": "m.doaie@yahoo.co.uk"
   },
   "engines": {
     "vscode": "^1.24.0"
@@ -20,9 +20,10 @@
   "keywords": [
     "code generator",
     "tests",
-    "test file generator",
+    "file generator",
     "create tests",
-    "create test file"
+    "create story",
+    "create story file"
   ],
   "activationEvents": [
     "onLanguage:typescript",
@@ -34,210 +35,34 @@
   "contributes": {
     "commands": [
       {
-        "command": "testRunner.create",
-        "title": "Create test file"
-      },
-      {
-        "command": "createStory.create",
-        "title": "Create story file"
-      },
-      {
-        "command": "testRunner.test",
-        "title": "Test this file"
+        "command": "fileGenerator.generate",
+        "title": "Generate File"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "when": "resourceLangId == typescript",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascript",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescriptreact",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascriptreact",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescript",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascript",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescriptreact",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascriptreact",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescript",
-          "command": "createStory.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascript",
-          "command": "createStory.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescriptreact",
-          "command": "createStory.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascriptreact",
-          "command": "createStory.create",
+          "command": "fileGenerator.generate",
           "group": "2_workspace"
         }
       ],
       "editor/title/context": [
         {
-          "when": "resourceLangId == typescript",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascript",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescriptreact",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascriptreact",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescript",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascript",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescriptreact",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascriptreact",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescript",
-          "command": "createStory.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascript",
-          "command": "createStory.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescriptreact",
-          "command": "createStory.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascriptreact",
-          "command": "createStory.create",
+          "command": "fileGenerator.generate",
           "group": "2_workspace"
         }
       ],
       "editor/context": [
         {
-          "when": "resourceLangId == typescript",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascript",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescriptreact",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascriptreact",
-          "command": "testRunner.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescript",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascript",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescriptreact",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascriptreact",
-          "command": "testRunner.test",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescript",
-          "command": "createStory.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascript",
-          "command": "createStory.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == typescriptreact",
-          "command": "createStory.create",
-          "group": "2_workspace"
-        },
-        {
-          "when": "resourceLangId == javascriptreact",
-          "command": "createStory.create",
+          "command": "fileGenerator.generate",
           "group": "2_workspace"
         }
       ]
     },
     "configuration": {
-      "title": "Where to keep the test files?",
+      "title": "Where to keep the new files?",
       "properties": {
-        "testRunner.configs": {
+        "fileGenerator.configs": {
           "type": "array",
           "items": {
             "type": "object",
@@ -249,7 +74,14 @@
                   "same location as source file",
                   "project root"
                 ],
-                "description": "Where to keep the created test files?"
+                "description": "Where to keep the created new files?"
+              },
+              "label": {
+                "type": "string",
+                "description": "Name of task"
+              },
+              "description": {
+                "type": "string"
               },
               "sourceDir": {
                 "type": "string",
@@ -258,30 +90,29 @@
               },
               "directoryName": {
                 "type": "string",
-                "default": "__tests__",
-                "description": "Name of the test directory."
+                "description": "Name of the new directory."
               },
-              "customLocationForFiles": {
+              "customFilesLocation": {
                 "type": "string",
-                "description": "Set this property in case you want to specify the custom location for test files."
+                "description": "Set this property in case you want to specify the custom location for new files."
               },
               "filesSuffix": {
                 "type": "string",
-                "default": "test",
-                "description": "Suffix to use for the test files."
+                "description": "Suffix to use for the new files."
               },
               "fileSuffixType": {
                 "type": "string",
                 "enum": [
-                  "extension",
-                  "append"
+                  "replace extension",
+                  "extend extension",
+                  "append to file name"
                 ],
-                "description": "Options are 'extension' and 'append', if extension 'filesSuffix' will be added as extension, if append 'filesSuffix' will be appended to file name."
+                "description": "If set to 'replace extension' file extension will be replaced with 'filesSuffix',if set to 'extend extension' file extension will be extended with 'filesSuffix' eg. .ts => .test.ts, if set to 'append to file name' 'filesSuffix' will be appended to file name."
               },
               "shouldSwitchToFile": {
                 "type": "boolean",
                 "default": true,
-                "description": "Whether to switch to the test file or not after creating it."
+                "description": "Whether to switch to the new file or not after creating it."
               },
               "template.*": {
                 "type": [
@@ -298,7 +129,7 @@
                 "default": [
                   ""
                 ],
-                "description": "Default template to use for all test file"
+                "description": "Default template to use for all new file"
               },
               "useForwardSlash": {
                 "type": "boolean",
@@ -327,7 +158,7 @@
                   "--watch",
                   "dotnet watch"
                 ],
-                "description": "If file created for the firs time test will not run,unless a watch command detected."
+                "description": "When file created for the first time the associated tasks should not run,unless a watch command detected."
               },
               "tasks": {
                 "type": "array",
@@ -339,13 +170,21 @@
                       "type": "string",
                       "description": "Name of task"
                     },
+                    "description": {
+                      "type": "string"
+                    },
                     "args": {
                       "type": "array",
                       "items": {
                         "type": "string",
                         "title": "task"
                       },
-                      "description": "Arguments to pass to test"
+                      "description": "Arguments to pass to task"
+                    },
+                    "runTaskOnFileCreation": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "If true task will run when file created, else it will only run when file already exist"
                     },
                     "useForwardSlash": {
                       "type": "boolean",
@@ -360,12 +199,17 @@
                     "shouldSwitchToFile": {
                       "type": "boolean",
                       "default": true,
-                      "description": "Whether to switch to the test file or not."
+                      "description": "Whether to switch to the new file or not."
                     },
-                    "openInNewTerminal": {
-                      "type": "boolean",
-                      "default": true,
-                      "description": "Will open new terminal for each run."
+                    "terminalInstanceType": {
+                      "type": "string",
+                      "default": "label",
+                      "enum": [
+                        "label",
+                        "command",
+                        "new"
+                      ],
+                      "description": "If set to 'label' created terminal instance will be reused by task with label name, if set to 'command' created terminal will be reused by task with same arguments and commands, if set 'new' terminal will be created each time task runs."
                     },
                     "command": {
                       "type": "string",
@@ -377,71 +221,23 @@
                     }
                   },
                   "required": [
-                    "label",
-                    "command"
+                    "label"
                   ]
                 },
                 "description": "Whether to switch to the story file or not after creating it."
               }
-            }
+            },
+            "required": [
+              "label"
+            ]
           }
-        },
-        "createStory.defaultLocationForFiles": {
-          "type": "string",
-          "default": "same location as source file",
-          "enum": [
-            "same location as source file",
-            "project root"
-          ],
-          "description": "Where to keep the created story files?"
-        },
-        "createStory.sourceDir": {
-          "type": "string",
-          "default": "src",
-          "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the story file."
-        },
-        "createStory.directoryName": {
-          "type": "string",
-          "default": "stories",
-          "description": "Name of the story directory."
-        },
-        "createStory.customLocationForFiles": {
-          "type": "string",
-          "description": "Set this property in case you want to specify the custom location for story files."
-        },
-        "createStory.filesSuffix": {
-          "type": "string",
-          "default": "stories",
-          "description": "Suffix to use for the story files."
-        },
-        "createStory.shouldSwitchToFile": {
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to switch to the story file or not after creating it."
-        },
-        "createStory.template.*": {
-          "type": [
-            "array",
-            "object"
-          ],
-          "description": "Language specific templates that you want to use."
-        },
-        "createStory.template.default": {
-          "type": [
-            "array",
-            "object"
-          ],
-          "default": [
-            ""
-          ],
-          "description": "Default template to use for all story file"
         }
       }
     }
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/HardikModha/vscode-create-tests.git"
+    "url": "https://github.com/HardikModha/vscode-file-generator.git"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

@@ -1,8 +1,8 @@
-import { TestTask } from "../types";
+import { NewFileTask } from "../types";
 import * as fs from "fs";
 import * as vscode from "vscode";
 import { AbstractVariableResolverService } from "../../vs/variableResolver";
-import { SourceFile } from "create-tests/SourceFile";
+import { SourceFile } from "file-generator/SourceFile";
 
 export class VariableResolverService extends AbstractVariableResolverService {
   constructor(
@@ -45,8 +45,8 @@ export class VariableResolverService extends AbstractVariableResolverService {
 
 export const createCommand = (
   sourceFile: string,
-  testSourceFile: SourceFile,
-  task: TestTask
+  newSourceFile: SourceFile,
+  task: NewFileTask
 ) => {
   let stringBuilder: string[] = [];
 
@@ -87,23 +87,23 @@ export const createCommand = (
 
   command = sourceFileVariableResolver.resolve(workSpaceFolder as any, command);
 
-  command = command.split("${testFile}").join("${file}");
-  command = command.split("${relativeTestFile}").join("${relativeFile}");
+  command = command.split("${newFile}").join("${file}");
+  command = command.split("${relativeNewFile}").join("${relativeFile}");
   command = command
-    .split("${relativeTestFileDirname}")
+    .split("${relativeNewFileDirname}")
     .join("${relativeFileDirname}");
-  command = command.split("${testFileDirname}").join("${fileDirname}");
-  command = command.split("${testFileExtname}").join("${fileExtname}");
-  command = command.split("${testFileBasename}").join("${fileBasename}");
+  command = command.split("${newFileDirname}").join("${fileDirname}");
+  command = command.split("${newFileExtname}").join("${fileExtname}");
+  command = command.split("${newFileBasename}").join("${fileBasename}");
   command = command
-    .split("${testFileBasenameNoExtension}")
+    .split("${newFileBasenameNoExtension}")
     .join("${fileBasenameNoExtension}");
 
-  const testFileVariableResolver = new VariableResolverService(
+  const newFileVariableResolver = new VariableResolverService(
     vscode.workspace.workspaceFolders!,
-    testSourceFile.getAbsolutePath()
+    newSourceFile.getAbsolutePath()
   );
-  command = testFileVariableResolver.resolve(workSpaceFolder as any, command);
+  command = newFileVariableResolver.resolve(workSpaceFolder as any, command);
 
   if (task.useForwardSlash) {
     command = command.split("\\").join("/");

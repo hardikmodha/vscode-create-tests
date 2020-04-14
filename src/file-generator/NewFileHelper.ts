@@ -1,4 +1,4 @@
-import { Configuration } from "create-tests/config/Configuration";
+import { Configuration } from "file-generator/config/Configuration";
 import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
@@ -6,13 +6,13 @@ import { SourceFile } from "./SourceFile";
 import {
   getDirectoryPath,
   replaceSourceDir,
-  getTestFileName,
-  isTestDirectory,
+  getFileName,
+  isNewDirectory,
 } from "./utils";
-import { DefaultLocationForTestFiles } from "./constants";
+import { DefaultLocationForNewFiles } from "./constants";
 import mkdirp = require("mkdirp");
 
-class TestFileHelper {
+class NewFileHelper {
   sourceFile!: SourceFile;
   config!: Configuration;
   constructor(config: Configuration, sourceFile: SourceFile) {
@@ -20,14 +20,14 @@ class TestFileHelper {
     this.sourceFile = sourceFile;
   }
   /**
-   * This method reads the configuration and based on that returns the path of directory inside which test file
+   * This method reads the configuration and based on that returns the path of directory inside which file
    * should be created. First it checks whether the `customLocationForFiles` is set or not. If the configuration
    * is absent then it reads the `defaultLocationForFiles` and based on that returns the directory path.
    */
-  getTestFilesLocation(): string {
-    let filesLocation: string = this.config.getCustomLocationForTestFiles();
+  getFilesLocation(): string {
+    let filesLocation: string = this.config.getCustomLocationForNewFiles();
 
-    if (this.isTestFile(this.sourceFile)) {
+    if (this.isNewFile(this.sourceFile)) {
       return this.sourceFile.getDirectoryPath();
     }
 
@@ -56,23 +56,23 @@ class TestFileHelper {
       return filesLocation;
     }
 
-    switch (this.config.getDefaultLocationForTestFiles()) {
-      case DefaultLocationForTestFiles.SAME_AS_SOURCE_FILE:
+    switch (this.config.getDefaultLocationForNewFiles()) {
+      case DefaultLocationForNewFiles.SAME_AS_SOURCE_FILE:
         let localFilePath: string = this.sourceFile.getDirectoryPath();
 
         if (
-          !this.isTestFile(this.sourceFile) &&
-          isTestDirectory(this.config.getTestDirectoryName(), localFilePath)
+          !this.isNewFile(this.sourceFile) &&
+          isNewDirectory(this.config.getDirectoryName(), localFilePath)
         ) {
           localFilePath = path.join(
             localFilePath,
-            this.config.getTestDirectoryName()
+            this.config.getDirectoryName()
           );
         }
 
         return localFilePath;
 
-      case DefaultLocationForTestFiles.PROJECT_ROOT:
+      case DefaultLocationForNewFiles.PROJECT_ROOT:
         const sourceFilePath: string = this.sourceFile.getRelativeFileDirname();
 
         // Check whether the SourceFile is present inside multiple directories
@@ -90,7 +90,7 @@ class TestFileHelper {
   private mimicSourceDirectoryStructure(): string {
     let directoryPath: string = path.join(
       this.sourceFile.getBaseDirectoryPath(),
-      this.config.getTestDirectoryName(),
+      this.config.getDirectoryName(),
       getDirectoryPath(this.sourceFile.getRelativeFileDirname())
     );
 
@@ -103,16 +103,16 @@ class TestFileHelper {
     return directoryPath;
   }
 
-  isTestFile(sourceFile: SourceFile) {
+  isNewFile(sourceFile: SourceFile) {
     const ext =
-      this.config.getTestFilesSuffix() + "." + sourceFile.getExtension();
+      this.config.getNewFilesSuffix() + "." + sourceFile.getExtension();
     return sourceFile.getName().endsWith(ext);
   }
 
   getParentFileName(sourceFile: SourceFile) {
     const fileName = sourceFile.getNameWithoutExtension();
     const originalFile = fileName.replace(
-      "." + this.config.getTestFilesSuffix(),
+      "." + this.config.getNewFilesSuffix(),
       ""
     );
     return originalFile + "." + sourceFile.getExtension();
@@ -121,37 +121,37 @@ class TestFileHelper {
   getParentSourceFile(sourceFile: SourceFile) {
     const parentDir = sourceFile
       .getDirectoryPath()
-      .replace(this.config.getTestDirectoryName(), "");
+      .replace(this.config.getDirectoryName(), "");
     const filePath = path.join(parentDir, this.getParentFileName(sourceFile));
     return new SourceFile(vscode.Uri.file(filePath));
   }
-  getTestFilesDirectory() {
-    let testDirPath = this.getTestFilesLocation();
+  getFilesDirectory() {
+    let newDirPath = this.getFilesLocation();
 
-    if (isTestDirectory(this.config.getTestDirectoryName(), testDirPath)) {
-      const testDirName = this.config.getTestDirectoryName();
-      testDirPath = path.join(testDirPath, testDirName);
+    if (isNewDirectory(this.config.getDirectoryName(), newDirPath)) {
+      const newDirName = this.config.getDirectoryName();
+      newDirPath = path.join(newDirPath, newDirName);
     }
-    return testDirPath;
+    return newDirPath;
   }
-  getTestSourceFile() {
-    return new SourceFile(vscode.Uri.file(this.getTestFileAbsolutePath()));
+  getSourceFile() {
+    return new SourceFile(vscode.Uri.file(this.getFileAbsolutePath()));
   }
 
-  getTestFileAbsolutePath() {
-    let testDirPath = this.getTestFilesLocation();
+  getFileAbsolutePath() {
+    let newDirPath = this.getFilesLocation();
 
-    if (!isTestDirectory(this.config.getTestDirectoryName(), testDirPath)) {
-      const testDirName = this.config.getTestDirectoryName();
-      testDirPath = path.join(testDirPath, testDirName);
+    if (!isNewDirectory(this.config.getDirectoryName(), newDirPath)) {
+      const newDirName = this.config.getDirectoryName();
+      newDirPath = path.join(newDirPath, newDirName);
     }
 
-    const fileName = this.isTestFile(this.sourceFile)
+    const fileName = this.isNewFile(this.sourceFile)
       ? this.sourceFile.getName()
-      : getTestFileName(this.sourceFile, this.config);
-    const testFilePath = path.join(testDirPath, fileName);
+      : getFileName(this.sourceFile, this.config);
+    const newFilePath = path.join(newDirPath, fileName);
 
-    return testFilePath;
+    return newFilePath;
   }
 }
-export { TestFileHelper };
+export { NewFileHelper };

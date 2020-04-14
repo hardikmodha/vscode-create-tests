@@ -1,7 +1,7 @@
 import * as path from "path";
 import { workspace } from "vscode";
 import { SourceFile } from "../SourceFile";
-import { Template, FileType } from "../types";
+import { Template } from "../types";
 import { getDirectoryPath } from "../utils";
 
 /**
@@ -11,30 +11,22 @@ export class TemplateManager {
   /**
    * This method reads the configuration and returns the template which matches with the extension
    * of the source file. e.g. If the file extension is ".ts" then the method returns the template
-   * defined with configuration "testRunner.template.ts".
+   * defined with configuration "fileGenerator.template.ts".
    *
    * @param file SourceFile instance
    */
-  static getTemplateForFile(file: SourceFile, fileType: FileType): Template {
-    const templates = workspace.getConfiguration(
-      fileType === FileType.Test
-        ? "testRunner.template"
-        : "createStory.template"
-    );
+  static getTemplateForFile(file: SourceFile): Template {
+    const templates = workspace.getConfiguration("fileGenerator.template");
 
     return templates.get(file.getExtension(), []);
   }
 
   /**
    * This method returns the default template by reading the configuration from the key
-   * "testRunner.template.default".
+   * "fileGenerator.template.default".
    */
-  static getDefaultTemplate(fileType: FileType): string[] {
-    const templates = workspace.getConfiguration(
-      fileType === FileType.Test
-        ? "testRunner.template"
-        : "createStory.template"
-    );
+  static getDefaultTemplate(): string[] {
+    const templates = workspace.getConfiguration("fileGenerator.template");
 
     return templates.get("default", []);
   }
@@ -45,18 +37,18 @@ export class TemplateManager {
    */
   static replacePlaceHolders(
     sourceFile: SourceFile,
-    testFilePath: string,
+    newFilePath: string,
     template: string[]
   ): string {
-    const testFilePathFromProjectRoot: string = path.relative(
+    const newFilePathFromProjectRoot: string = path.relative(
       sourceFile.getBaseDirectoryPath(),
-      testFilePath
+      newFilePath
     );
 
     const sourceFileDir = getDirectoryPath(sourceFile.getRelativeFileDirname());
     const moduleName = sourceFile.getNameWithoutExtension();
-    const testFileDir = getDirectoryPath(testFilePathFromProjectRoot);
-    const relativePath = path.relative(testFileDir, sourceFileDir);
+    const newFileDir = getDirectoryPath(newFilePathFromProjectRoot);
+    const relativePath = path.relative(newFileDir, sourceFileDir);
     const importPath = [relativePath, moduleName].join("/");
 
     return template

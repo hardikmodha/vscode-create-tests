@@ -1,5 +1,5 @@
-export * from "./getTestFileName";
+export * from "./getFileName";
 export * from "./util";
-export * from "./isTestDirectory";
+export * from "./isNewDirectory";
 export * from "./create-command";
 export * from "./switchToFile";
