@@ -1,5 +1,5 @@
 {
-  "name": "file-generator",
+  "name": "vscode-file-generator",
   "displayName": "Generator File",
   "description": "An extension to quickly generate new file base on the original file with new extension or .",
   "version": "1.1.1",
