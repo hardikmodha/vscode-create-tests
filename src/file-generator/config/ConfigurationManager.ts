@@ -27,6 +27,8 @@ export class ConfigurationManager {
       return;
     }
 
+    const isUriInstance = args instanceof Uri;
+
     const extension = sourceFile.getExtension();
 
     const configByExtension = configs.find((x) =>
@@ -34,38 +36,49 @@ export class ConfigurationManager {
     );
 
     if (!configByExtension) {
-      configError();
+      window.showErrorMessage(
+        "File extension not supported, to support the extension add an entry to 'fileGenerator.configs' and set 'supportedExtension' property."
+      );
       return;
     }
 
-    let label: string | undefined = "";
-    let config: IConfiguration | undefined = configByExtension;
+    let taskLabel: string | undefined = "";
+    let config: IConfiguration | undefined;
 
-    if (args instanceof Uri) {
+    if (isUriInstance) {
       config = await getConfigQuickPick(configs);
       if (config) {
-        label = await getTaskQuickPick(config);
+        taskLabel = await getTaskQuickPick(config);
       }
     } else {
-      label = (args as string).toString();
+      taskLabel = args.toString();
+      const configByLabel = configs.find((x) => x.label === taskLabel);
+      if (configByLabel) {
+        config = configByLabel;
+      } else {
+        config = configs.find((x) =>
+          x.tasks.find((t) => t.label === taskLabel)
+        );
+      }
     }
 
     if (!config) {
-      configError();
+      window.showErrorMessage(
+        "Unable to find configurations, make sure to have a valid 'fileGenerator.configs' settings."
+      );
       return;
     }
 
-    return new Configuration(
-      config,
-      config.tasks && config.tasks.find((x) => x.label === label)
-    );
+    const task =
+      config.tasks && taskLabel
+        ? config.tasks.find((x) => x.label === taskLabel)
+        : undefined;
+
+    const configuration = new Configuration(config, task);
+
+    return configuration;
   }
 }
-const configError = () => {
-  window.showErrorMessage(
-    "File extension not supported, to support the extension add an entry to 'fileGenerator.configs' and set 'supportedExtension' property."
-  );
-};
 
 const getConfigQuickPick = async (configs: IConfiguration[]) => {
   let configsPickItemItems: QuickPickItem[] = configs.map((conf) => {

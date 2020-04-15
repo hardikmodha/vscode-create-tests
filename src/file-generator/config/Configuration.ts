@@ -27,6 +27,10 @@ export class Configuration {
     this.task = task;
   }
 
+  getTemplate() {
+    return this.defaultConfiguration.template;
+  }
+
   getTasks(): NewFileTask[] {
     return this.defaultConfiguration.tasks;
   }

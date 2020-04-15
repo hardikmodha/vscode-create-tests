@@ -114,22 +114,12 @@
                 "default": true,
                 "description": "Whether to switch to the new file or not after creating it."
               },
-              "template.*": {
+              "template": {
                 "type": [
                   "array",
                   "object"
                 ],
-                "description": "Language specific templates that you want to use."
-              },
-              "template.default": {
-                "type": [
-                  "array",
-                  "object"
-                ],
-                "default": [
-                  ""
-                ],
-                "description": "Default template to use for all new file"
+                "description": "Template to append to newly created file."
               },
               "useForwardSlash": {
                 "type": "boolean",
@@ -180,6 +170,13 @@
                         "title": "task"
                       },
                       "description": "Arguments to pass to task"
+                    },
+                    "checkIfArgPathExist": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Will check if path exist for an arguments, the argument and path should be in one line => ['--config=some path to config'], if the path provided for --config not fund --config option will be removed from command. And error message displayed."
                     },
                     "runTaskOnFileCreation": {
                       "type": "boolean",

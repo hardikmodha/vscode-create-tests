@@ -1,57 +1,198 @@
-# [vscode-file-generator](https://marketplace.visualstudio.com/items?itemName=hardikmodha.file-generator) (v1.1.1)
+Forked from [hardikmodha/vscode-create-tests](https://github.com/HardikModha/vscode-file-generator/blob/master/README.md)
 
-Quickly create test files for your JavaScript/Typescript/React projects with just one click.
+Modified to quickly create files.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/HardikModha/vscode-file-generator/blob/master/LICENSE)
 
 ### Motivation
 
-While working on a project in my organization, We followed a pattern to keep tests files outside the main source directory. (Same structure as [this](https://github.com/gitpoint/git-point)). It was working fine until the project got bigger. It was becoming really very difficult to mimic the same directory structure as the source file and create a test file in it manually. So this extension solves the problem. It helps you to quickly generate test files with many possible customizations.
+Needed a file generator to create a file and run task on it.
 
 ## Features
 
-- Create test file from the file explorer view/editor title view or from the editor.
-- Specifying the default location to keep the test files. Currently supports
+- Create file from the file explorer or short cut.
+- Specifying the default location to keep the new files. Currently supports
   1.  Location same as the file location.
   2.  Project root
 - If for some reasons default locations don't work for you. Don't worry, you can specify the custom location as well.
-- Custom name for the test directory.
+- Custom name for the file directory.
 - Ability to specify the various template(s) to use for test files for the different languages.
 - Automatically switching to test cases when you create them.
-
-## How to use this extension?
-
-Install and open [Visual Studio Code](https://code.visualstudio.com/). Press `Ctrl+Shift+X` or `Cmd+Shift+X` to open the Extensions pane. Type `create tests` in the search box and hit enter. You can also install the extension from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=hardikmodha.file-generator). Currently, It supports Typescript and Javascript files. (Supported file extensions: `.ts`, `.tsx`, `.js`, `.jsx`)
-
-![Demo](https://media.giphy.com/media/1iqPhENd8SLd9SggeX/giphy.gif)
+- pass argument to terminal open file creation or if file exist
 
 ## Configuration options
 
-| Property                                | Type            | Default                                            | Allowed Values                                                          | Description                                                                                                                                                               |
-| :-------------------------------------- | :-------------- | :------------------------------------------------- | :---------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `fileGenerator.defaultLocationForFiles` | string          | `same location as source file`                     | 1. `same location as source file`, &nbsp;&nbsp;&nbsp; 2. `project root` | Location where you want to keep the test files.                                                                                                                           |
-| `fileGenerator.sourceDir`               | string          | `src`                                              | any string value                                                        | Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file.                               |
-| `fileGenerator.directoryName`           | string          | `tests`                                            | any string value (allows empty string)                                  | Name of the directory which should contain all the test files. If this config option value is set to an empty string then it keeps the test file next to the source file. |
-| `fileGenerator.customLocationForFiles`  | string          | -                                                  | any valid path                                                          | Set this property in case you want to specify the custom location for test files.                                                                                         |
-| `fileGenerator.filesSuffix`             | string          | 'test'                                             | any string value                                                        | Suffix to append for every created test file                                                                                                                              |
-| `fileGenerator.shouldSwitchToFile`      | boolean         | true                                               | true \| false                                                           | Whether to switch to the created test file or not                                                                                                                         |
-| `fileGenerator.template.default`        | array \| object | `["import {${moduleName}} from '${modulePath}';"]` | any string array or object                                              | Default template to use for all test file                                                                                                                                 |
-| `fileGenerator.template.*`              | array \| object | -                                                  | string array or object                                                  | Language specific templates that you want to use.                                                                                                                         |
+Accepts array of configurations with following options
 
-## Template types
-
-Templates are used to initialize test files with default content. It eases the task and removes boilerplate code. Following template types are supported.
-
-### 1. Default template
-
-The default template for any file can be specified by overriding the configuration `fileGenerator.template.default`.
-Default value for this template is: `"import ${moduleName} from '${modulePath}';"` Here, `moduleName` and `modulePath` are special placeholders, which gets replaces with the source file name and the relative path to the source file respectively.
-
-### 2. Language-specific templates
-
-When creating the test files, this extension reads the configuration for the template specified by `fileGenerator.template.<file-extension>`. So if your file name is `MyFile.js` then the extension will read the configuration `fileGenerator.template.js` for the template. If it finds one then it will write the content of the template into the created test file.
-
-**Note**: Language-specific templates have higher priority over the default template.
+```
+        "fileGenerator.configs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "defaultLocationForFiles": {
+                "type": "string",
+                "default": "same location as source file",
+                "enum": [
+                  "same location as source file",
+                  "project root"
+                ],
+                "description": "Where to keep the created new files?"
+              },
+              "label": {
+                "type": "string",
+                "description": "Name of task"
+              },
+              "description": {
+                "type": "string"
+              },
+              "sourceDir": {
+                "type": "string",
+                "default": "src",
+                "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file."
+              },
+              "directoryName": {
+                "type": "string",
+                "description": "Name of the new directory."
+              },
+              "customFilesLocation": {
+                "type": "string",
+                "description": "Set this property in case you want to specify the custom location for new files."
+              },
+              "filesSuffix": {
+                "type": "string",
+                "description": "Suffix to use for the new files."
+              },
+              "fileSuffixType": {
+                "type": "string",
+                "enum": [
+                  "replace extension",
+                  "extend extension",
+                  "append to file name"
+                ],
+                "description": "If set to 'replace extension' file extension will be replaced with 'filesSuffix',if set to 'extend extension' file extension will be extended with 'filesSuffix' eg. .ts => .test.ts, if set to 'append to file name' 'filesSuffix' will be appended to file name."
+              },
+              "shouldSwitchToFile": {
+                "type": "boolean",
+                "default": true,
+                "description": "Whether to switch to the new file or not after creating it."
+              },
+              "template": {
+                "type": [
+                  "array",
+                  "object"
+                ],
+                "description": "Template to append to newly created file."
+              },
+              "useForwardSlash": {
+                "type": "boolean",
+                "default": true,
+                "description": "If set to true will make backslash to forward slash, useful for windows and jest."
+              },
+              "supportedExtension": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "ts",
+                  "tsx",
+                  "js",
+                  "jsx"
+                ],
+                "description": "Test supported Extension"
+              },
+              "watchCommands": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "--watch",
+                  "dotnet watch"
+                ],
+                "description": "When file created for the first time the associated tasks should not run,unless a watch command detected."
+              },
+              "tasks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "title": "task",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "description": "Name of task"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "args": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "title": "task"
+                      },
+                      "description": "Arguments to pass to task"
+                    },
+                    "checkIfArgPathExist": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Will check if path exist for an arguments, the argument and path should be in one line => ['--config=some path to config'], if the path provided for --config not fund --config option will be removed from command. And error message displayed."
+                    },
+                    "runTaskOnFileCreation": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "If true task will run when file created, else it will only run when file already exist"
+                    },
+                    "useForwardSlash": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Will convert back slash to forward slash, Required for jest when running in windows"
+                    },
+                    "usePathFromBaseDirectory": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "When set to true the workspace root path will be removed, Required for jest"
+                    },
+                    "shouldSwitchToFile": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Whether to switch to the new file or not."
+                    },
+                    "terminalInstanceType": {
+                      "type": "string",
+                      "default": "label",
+                      "enum": [
+                        "label",
+                        "command",
+                        "new"
+                      ],
+                      "description": "If set to 'label' created terminal instance will be reused by task with label name, if set to 'command' created terminal will be reused by task with same arguments and commands, if set 'new' terminal will be created each time task runs."
+                    },
+                    "command": {
+                      "type": "string",
+                      "default": "jest"
+                    },
+                    "default": {
+                      "type": "boolean",
+                      "description": "When unable to detect task, will run task with default set to true"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                },
+                "description": "Whether to switch to the story file or not after creating it."
+              }
+            },
+            "required": [
+              "label"
+            ]
+          }
+        }
+```
 
 ## Supported templates
 
@@ -74,35 +215,6 @@ to
     "})"
 ]
 ```
-
-and can be as complex as
-
-```
-{
-    "Template for basic files": [
-        "import { ${moduleName} } from '${modulePath}';"
-    ],
-    "Template for awesome files": [
-        "import { ${moduleName} } from '${modulePath}';",
-        "describe('${moduleName}', () => {",
-	"\tit('', () => {",
-	"",
-	"\t})",
-	"})"
-    ]
-}
-```
-
-When you specify a template object, The extension will ask you to choose the template when you create a file as shown in the below image.
-
-![Multiple Templates Demo](https://i.imgur.com/FBonrQJ.png)
-
-## TODO
-
-- [ ] Add test cases.
-- [ ] Add support for creating the test files via keyboard shortcut.
-- [ ] Add support for more placeholders to make templating more usable.
-- [ ] Add support for different languages.
 
 ## License
 

@@ -15,10 +15,8 @@ export class TemplateManager {
    *
    * @param file SourceFile instance
    */
-  static getTemplateForFile(file: SourceFile): Template {
-    const templates = workspace.getConfiguration("fileGenerator.template");
-
-    return templates.get(file.getExtension(), []);
+  static getTemplateForFile(file: SourceFile, template?: Template) {
+    return template;
   }
 
   /**

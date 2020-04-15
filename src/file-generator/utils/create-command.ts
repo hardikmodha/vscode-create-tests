@@ -63,21 +63,28 @@ export const createCommand = (
 
   if (task.args) {
     const args = task.args.reduce((arr, arg) => {
-      // make sure config has valid path
-      if (arg.trim().startsWith("--config")) {
-        const keyVal = arg.split("=")[1];
-        const path = sourceFileVariableResolver.resolve(
-          workSpaceFolder as any,
-          keyVal
-        );
-        if (fs.existsSync(path)) {
-          arr.push(arg);
-        } else {
-          vscode.window.showErrorMessage("Unable to locate " + path);
-        }
+      if (task.checkIfArgPathExist) {
+        task.checkIfArgPathExist?.forEach((argToCheck) => {
+          // make sure config has valid path
+          if (arg.trim().startsWith(argToCheck)) {
+            const keyVal = arg.split("=")[1];
+            const path = sourceFileVariableResolver.resolve(
+              workSpaceFolder as any,
+              keyVal
+            );
+            if (fs.existsSync(path)) {
+              arr.push(arg);
+            } else {
+              vscode.window.showErrorMessage("Unable to locate " + arg);
+            }
+          } else {
+            arr.push(arg);
+          }
+        });
       } else {
         arr.push(arg);
       }
+
       return arr;
     }, [] as string[]);
     stringBuilder = [...stringBuilder, ...args];

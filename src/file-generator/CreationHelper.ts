@@ -5,9 +5,9 @@ import { getFileName, isNewDirectory, switchToFile } from "./utils";
 import { Configuration } from "./config/Configuration";
 import { SourceFile } from "./SourceFile";
 import { TemplateManager } from "./templates/TemplateManager";
-import { Template } from "./types";
 import { NewFileHelper } from "./NewFileHelper";
 import mkdirp = require("mkdirp");
+import { Template } from "./types";
 
 /**
  * A helper class which defines methods to create a new file for any particular source file based on the
@@ -31,7 +31,7 @@ export class CreationHelper {
   /**
    * Main method to create a new file.
    */
-  createFile() {
+  createFile(template?: Template) {
     let dirPath = this.newFileHelper.getFilesLocation();
 
     if (!isNewDirectory(this.configuration.getDirectoryName(), dirPath)) {
@@ -55,7 +55,7 @@ export class CreationHelper {
     }
 
     // Write the default template or template specified by the user in the file.
-    this.writeContentToFile(filePath).then((success: boolean) => {
+    this.writeContentToFile(filePath, template).then((success: boolean) => {
       if (success) {
         if (this.configuration.shouldSwitchToFile()) {
           switchToFile(filePath);
@@ -84,8 +84,8 @@ export class CreationHelper {
   /**
    * This method creates the file and writes the template specified in the configuration.
    */
-  writeContentToFile(filePath: string): Thenable<boolean> {
-    return this.getTemplate().then((content: string[]) => {
+  writeContentToFile(filePath: string, template?: Template): Thenable<boolean> {
+    return this.getTemplate(template).then((content: string[]) => {
       let stringTemplate: string = "";
       if (content.length > 0) {
         stringTemplate = TemplateManager.replacePlaceHolders(
@@ -103,13 +103,13 @@ export class CreationHelper {
     });
   }
 
-  getTemplate(): Thenable<string[]> {
-    let template: Template = TemplateManager.getTemplateForFile(
-      this.sourceFile
-    );
+  getTemplate(template?: Template): Thenable<string[]> {
+    // let templateStr: Template = TemplateManager.getTemplateForFile(
+    //   this.sourceFile
+    // );
 
     if (Array.isArray(template) && !template.length) {
-      template = TemplateManager.getDefaultTemplate();
+      return Promise.resolve([""]);
     }
 
     // If only single template is defined then return it
@@ -117,11 +117,12 @@ export class CreationHelper {
       return Promise.resolve(template);
     }
 
+    return Promise.resolve([""]);
     // ...else display all the available options to user and let him/her choose the template.
-    return window.showQuickPick(Object.keys(template)).then((selected) => {
-      return selected
-        ? (template as any)[selected]
-        : TemplateManager.getDefaultTemplate();
-    });
+    // return window.showQuickPick(Object.keys(template)).then((selected) => {
+    //   return selected
+    //     ? (template as any)[selected]
+    //     : TemplateManager.getDefaultTemplate();
+    // });
   }
 }

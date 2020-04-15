@@ -41,13 +41,14 @@ export class TaskRunner {
     }
 
     let newCreated = false;
+    const task = configs.getTask();
 
     const newFileHelper = new NewFileHelper(configs, sourceFile);
 
     if (!fs.existsSync(newFileHelper.getFileAbsolutePath())) {
       try {
         const helper = new CreationHelper(sourceFile, configs, newFileHelper);
-        helper.createFile();
+        helper.createFile(configs.getTemplate());
       } catch (error) {
         vscode.window.showErrorMessage(error.message);
       }
@@ -55,7 +56,6 @@ export class TaskRunner {
       newCreated = true;
     }
 
-    const task = configs.getTask();
     const newFileSource = newFileHelper.getSourceFile();
 
     if (!task) {

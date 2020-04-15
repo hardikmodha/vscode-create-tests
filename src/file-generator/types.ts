@@ -12,6 +12,7 @@ export interface NewFileTask {
   terminalInstanceType: "label" | "command" | "new";
   runTaskOnFileCreation: boolean;
   description: string;
+  checkIfArgPathExist?: string[];
 }
 
 export interface IConfiguration {
@@ -30,6 +31,7 @@ export interface IConfiguration {
   configs: IConfiguration[];
   label?: string;
   description?: string;
+  template?: Template;
 }
 
 export type Template = string[] | { [key: string]: string[] };
