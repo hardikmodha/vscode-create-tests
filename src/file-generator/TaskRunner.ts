@@ -84,14 +84,18 @@ export class TaskRunner {
     this.runTerminalCommand(
       command,
       task.terminalInstanceType,
-      args.toString()
+      args.toString(),
+      task.shouldSwitchToFile
+        ? newFileSource.getDirectoryPath()
+        : parentSourceFile.getDirectoryPath()
     );
   }
 
   runTerminalCommand = async (
     command: string,
     terminalType: TerminalInstanceType,
-    args: string
+    args: string,
+    cwd: string
   ) => {
     const terminalInstanceId =
       terminalType === "new" ? "" : terminalType === "command" ? command : args;
@@ -99,9 +103,9 @@ export class TaskRunner {
     let terminal = this.terminals[terminalInstanceId];
 
     if (terminalType === "new") {
-      terminal = vscode.window.createTerminal("fileGenerator");
+      terminal = vscode.window.createTerminal({ name: "fileGenerator", cwd });
     } else if (!terminal) {
-      terminal = vscode.window.createTerminal("fileGenerator");
+      terminal = vscode.window.createTerminal({ name: "fileGenerator", cwd });
       this.terminals[terminalInstanceId] = terminal;
     }
 
