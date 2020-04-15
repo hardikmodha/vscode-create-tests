@@ -4,7 +4,7 @@
   "description": "An extension to quickly generate new file base on the original file with new extension or .",
   "version": "1.1.1",
   "publisher": "m.doaie",
-  "homepage": "https://github.com/HardikModha/vscode-file-generator/blob/master/README.md",
+  "homepage": "https://github.com/Cyrus-d/vscode-file-generator",
   "author": {
     "name": "mo doaie",
     "email": "m.doaie@yahoo.co.uk"
