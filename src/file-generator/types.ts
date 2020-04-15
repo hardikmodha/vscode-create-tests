@@ -1,4 +1,5 @@
 import { DefaultLocationForNewFiles } from "./constants";
+import { QuickPickItem } from "vscode";
 
 export type TerminalInstanceType = "label" | "command" | "new";
 
@@ -13,6 +14,7 @@ export interface NewFileTask {
   runTaskOnFileCreation: boolean;
   description: string;
   checkIfArgPathExist?: string[];
+  userInputPrompt: QuickPickItem[][] | QuickPickItem[];
 }
 
 export interface IConfiguration {

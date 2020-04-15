@@ -67,7 +67,7 @@ export class TaskRunner {
 
     const parentSourceFile = newFileHelper.getParentSourceFile(sourceFile);
 
-    const command = createCommand(
+    const command = await createCommand(
       parentSourceFile.getAbsolutePath(),
       newFileSource,
       task

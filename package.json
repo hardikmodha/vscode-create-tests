@@ -35,26 +35,26 @@
   "contributes": {
     "commands": [
       {
-        "command": "fileGenerator.generate",
+        "command": "fileGenerator.run",
         "title": "Generate File"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "fileGenerator.generate",
+          "command": "fileGenerator.run",
           "group": "2_workspace"
         }
       ],
       "editor/title/context": [
         {
-          "command": "fileGenerator.generate",
+          "command": "fileGenerator.run",
           "group": "2_workspace"
         }
       ],
       "editor/context": [
         {
-          "command": "fileGenerator.generate",
+          "command": "fileGenerator.run",
           "group": "2_workspace"
         }
       ]
@@ -177,6 +177,35 @@
                         "type": "string"
                       },
                       "description": "Will check if path exist for an arguments, the argument and path should be in one line => ['--config=some path to config'], if the path provided for --config not fund --config option will be removed from command. And error message displayed."
+                    },
+                    "userInputPrompt": {
+                      "type": "array",
+                      "items": {
+                        "type": [
+                          "object",
+                          "array"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "properties": {
+                          "label": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "description": "Will show user input prompt to give a choice of options. for single prompt use array: [{ \"label\": \"--coverage\" }] , for In Sequence prompts use multi dimensional array: [[{ \"label\":\"--coverage\" }],[{ \"label\": \"--watch\" }]]"
                     },
                     "runTaskOnFileCreation": {
                       "type": "boolean",

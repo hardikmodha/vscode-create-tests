@@ -43,12 +43,14 @@ export class VariableResolverService extends AbstractVariableResolverService {
   }
 }
 
-export const createCommand = (
+export const createCommand = async (
   sourceFile: string,
   newSourceFile: SourceFile,
   task: NewFileTask
 ) => {
   let stringBuilder: string[] = [];
+
+  const args = task.args;
 
   stringBuilder.push(task.command);
 
@@ -61,8 +63,28 @@ export const createCommand = (
     vscode.Uri.file(vscode.workspace.rootPath!)
   );
 
-  if (task.args) {
-    const args = task.args.reduce((arr, arg) => {
+  // https://code.visualstudio.com/docs/editor/variables-reference#_input-variables
+  if (args) {
+    if (task.userInputPrompt && task.userInputPrompt[0]) {
+      if (Array.isArray(task.userInputPrompt[0])) {
+        for (let i = 0; i < task.userInputPrompt.length; i++) {
+          const items = task.userInputPrompt[i];
+          const opt = await getQuickPromptPick(items as vscode.QuickPickItem[]);
+          if (opt) {
+            args.push(opt.label);
+          }
+        }
+      } else {
+        const opt = await getQuickPromptPick(
+          task.userInputPrompt as vscode.QuickPickItem[]
+        );
+        if (opt) {
+          args.push(opt.label);
+        }
+      }
+    }
+
+    const filteredArgs = args.reduce((arr, arg) => {
       if (task.checkIfArgPathExist) {
         task.checkIfArgPathExist?.forEach((argToCheck) => {
           // make sure config has valid path
@@ -87,7 +109,7 @@ export const createCommand = (
 
       return arr;
     }, [] as string[]);
-    stringBuilder = [...stringBuilder, ...args];
+    stringBuilder = [...stringBuilder, ...filteredArgs];
   }
 
   let command = stringBuilder.join(" ");
@@ -117,4 +139,12 @@ export const createCommand = (
   }
 
   return command;
+};
+
+const getQuickPromptPick = async (items: vscode.QuickPickItem[]) => {
+  const configPicked = await vscode.window.showQuickPick(items);
+  if (configPicked) {
+    return configPicked;
+  }
+  return;
 };

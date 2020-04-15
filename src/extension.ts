@@ -6,7 +6,7 @@ const taskRunnerInstance = new TaskRunner();
 
 export function activate(context: vscode.ExtensionContext) {
   const fileGenerator = vscode.commands.registerCommand(
-    "fileGenerator.generate",
+    "fileGenerator.run",
     (sourceFile: vscode.Uri) => {
       taskRunnerInstance.run(sourceFile);
     }
