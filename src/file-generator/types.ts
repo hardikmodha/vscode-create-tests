@@ -15,6 +15,7 @@ export interface NewFileTask {
   description: string;
   checkIfArgPathExist?: string[];
   userInputPrompt: QuickPickItem[][] | QuickPickItem[];
+  shouldSwitchTerminalToCwd?: boolean;
 }
 
 export interface IConfiguration {

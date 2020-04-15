@@ -85,9 +85,11 @@ export class TaskRunner {
       command,
       task.terminalInstanceType,
       args.toString(),
-      task.shouldSwitchToFile
-        ? newFileSource.getDirectoryPath()
-        : parentSourceFile.getDirectoryPath()
+      task.shouldSwitchTerminalToCwd
+        ? task.shouldSwitchToFile
+          ? newFileSource.getDirectoryPath()
+          : parentSourceFile.getDirectoryPath()
+        : undefined
     );
   }
 
@@ -95,7 +97,7 @@ export class TaskRunner {
     command: string,
     terminalType: TerminalInstanceType,
     args: string,
-    cwd: string
+    cwd?: string
   ) => {
     const terminalInstanceId =
       terminalType === "new" ? "" : terminalType === "command" ? command : args;
