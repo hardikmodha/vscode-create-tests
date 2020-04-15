@@ -105,12 +105,9 @@ export class TaskRunner {
       this.terminals[terminalInstanceId] = terminal;
     }
 
-    terminal.show();
+    terminal.show(true);
     await vscode.commands.executeCommand("workbench.action.terminal.clear");
     terminal.sendText(command);
-
-    if (vscode.window.activeTextEditor)
-      switchToFile(vscode.window.activeTextEditor.document.fileName);
   };
 
   private setup() {
