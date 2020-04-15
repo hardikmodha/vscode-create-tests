@@ -94,16 +94,16 @@ export const createCommand = (
 
   command = sourceFileVariableResolver.resolve(workSpaceFolder as any, command);
 
-  command = command.split("${newFile}").join("${file}");
-  command = command.split("${relativeNewFile}").join("${relativeFile}");
+  command = command.split("${targetFile}").join("${file}");
+  command = command.split("${relativeTargetFile}").join("${relativeFile}");
   command = command
-    .split("${relativeNewFileDirname}")
+    .split("${relativeTargetFileDirname}")
     .join("${relativeFileDirname}");
-  command = command.split("${newFileDirname}").join("${fileDirname}");
-  command = command.split("${newFileExtname}").join("${fileExtname}");
-  command = command.split("${newFileBasename}").join("${fileBasename}");
+  command = command.split("${targetFileDirname}").join("${fileDirname}");
+  command = command.split("${targetFileExtname}").join("${fileExtname}");
+  command = command.split("${targetFileBasename}").join("${fileBasename}");
   command = command
-    .split("${newFileBasenameNoExtension}")
+    .split("${targetFileBasenameNoExtension}")
     .join("${fileBasenameNoExtension}");
 
   const newFileVariableResolver = new VariableResolverService(

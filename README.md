@@ -194,6 +194,20 @@ Accepts array of configurations with following options
         }
 ```
 
+## Task Variables
+
+This extension supports [vscode predefined variables](https://code.visualstudio.com/docs/editor/variables-reference) as well as following:
+
+- \${targetFile}
+- \${relativeTargetFile}
+- \${relativeTargetFileDirname}
+- \${targetFileDirname}
+- \${targetFileExtname}
+- \${targetFileBasename}
+- \${targetFileBasenameNoExtension}
+
+These variables can only be used with task arguments.
+
 ## Supported templates
 
 For this extension, The templates can vary from as simple as
