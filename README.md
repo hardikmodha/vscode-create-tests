@@ -185,6 +185,11 @@ Accepts array of configurations with following options
               "default": true,
               "description": "When set to true the workspace root path will be removed, Required for jest"
             },
+            "shouldSwitchTerminalToCwd": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to switch terminal to cwd."
+            },
             "shouldSwitchToFile": {
               "type": "boolean",
               "default": true,
