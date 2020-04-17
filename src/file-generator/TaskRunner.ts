@@ -85,6 +85,7 @@ export class TaskRunner {
       command,
       task.terminalInstanceType,
       args.toString(),
+      task.label,
       task.shouldSwitchTerminalToCwd
         ? task.shouldSwitchToFile
           ? newFileSource.getDirectoryPath()
@@ -97,6 +98,7 @@ export class TaskRunner {
     command: string,
     terminalType: TerminalInstanceType,
     args: string,
+    terminalLabel: string,
     cwd?: string
   ) => {
     const terminalInstanceId =
@@ -105,9 +107,9 @@ export class TaskRunner {
     let terminal = this.terminals[terminalInstanceId];
 
     if (terminalType === "new") {
-      terminal = vscode.window.createTerminal({ name: "fileGenerator", cwd });
+      terminal = vscode.window.createTerminal({ name: terminalLabel, cwd });
     } else if (!terminal) {
-      terminal = vscode.window.createTerminal({ name: "fileGenerator", cwd });
+      terminal = vscode.window.createTerminal({ name: terminalLabel, cwd });
       this.terminals[terminalInstanceId] = terminal;
     }
 
