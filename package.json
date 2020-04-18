@@ -10,7 +10,7 @@
     "email": "m.doaie@yahoo.co.uk"
   },
   "engines": {
-    "vscode": "^1.24.0"
+    "vscode": "^1.24.1"
   },
   "categories": [
     "Programming Languages",

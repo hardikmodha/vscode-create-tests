@@ -50,7 +50,7 @@ export const createCommand = async (
 ) => {
   let stringBuilder: string[] = [];
 
-  const args = task.args;
+  const args = task.args ? task.args.map((x) => x) : undefined;
 
   stringBuilder.push(task.command);
 
