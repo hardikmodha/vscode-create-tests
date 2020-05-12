@@ -2,9 +2,9 @@
   "name": "vscode-file-generator",
   "displayName": "File Generator",
   "description": "An extension to quickly generate new file base on the original file with new extension or .",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "publisher": "m.doaie",
-  "homepage": "https://github.com/Cyrus-d/vscode-file-generator",
+  "homepage": "https://github.com/ccpu/vscode-file-generator.git",
   "author": {
     "name": "mo doaie",
     "email": "m.doaie@yahoo.co.uk"
@@ -177,6 +177,11 @@
                         "type": "string"
                       },
                       "description": "Will check if path exist for an arguments, the argument and path should be in one line => ['--config=some path to config'], if the path provided for --config not fund --config option will be removed from command. And error message displayed."
+                    },
+                    "showMessageIfPathNotExist": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Will display message if file path is not exist. referring to checkIfArgPathExist."
                     },
                     "userInputPrompt": {
                       "type": "array",

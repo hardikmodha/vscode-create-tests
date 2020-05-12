@@ -97,7 +97,9 @@ export const createCommand = async (
             if (fs.existsSync(path)) {
               arr.push(arg);
             } else {
-              vscode.window.showErrorMessage("Unable to locate " + arg);
+              if (task.showMessageIfPathNotExist) {
+                vscode.window.showErrorMessage("Unable to locate " + arg);
+              }
             }
           } else {
             arr.push(arg);

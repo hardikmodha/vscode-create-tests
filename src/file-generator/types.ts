@@ -14,6 +14,7 @@ export interface NewFileTask {
   runTaskOnFileCreation: boolean;
   description: string;
   checkIfArgPathExist?: string[];
+  showMessageIfPathNotExist?: boolean;
   userInputPrompt: QuickPickItem[][] | QuickPickItem[];
   shouldSwitchTerminalToCwd?: boolean;
 }
