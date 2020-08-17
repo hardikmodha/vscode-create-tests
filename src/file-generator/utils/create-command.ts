@@ -43,6 +43,8 @@ export class VariableResolverService extends AbstractVariableResolverService {
   }
 }
 
+const NONE_MESSAGE = "- no option will be passed to the arguments";
+
 export const createCommand = async (
   sourceFile: string,
   newSourceFile: SourceFile,
@@ -69,8 +71,19 @@ export const createCommand = async (
       if (Array.isArray(task.userInputPrompt[0])) {
         for (let i = 0; i < task.userInputPrompt.length; i++) {
           const items = task.userInputPrompt[i];
-          const opt = await getQuickPromptPick(items as vscode.QuickPickItem[]);
-          if (opt) {
+
+          const newItems = [
+            {
+              label: "none",
+              picked: true,
+              description: NONE_MESSAGE,
+            },
+            ...(items as vscode.QuickPickItem[]),
+          ];
+          const opt = await getQuickPromptPick(
+            newItems as vscode.QuickPickItem[]
+          );
+          if (opt && opt.description !== NONE_MESSAGE) {
             args.push(opt.label);
           }
         }
@@ -97,7 +110,9 @@ export const createCommand = async (
             if (fs.existsSync(path)) {
               arr.push(arg);
             } else {
-              vscode.window.showErrorMessage("Unable to locate " + arg);
+              if (task.showMessageIfPathNotExist) {
+                vscode.window.showErrorMessage("Unable to locate " + arg);
+              }
             }
           } else {
             arr.push(arg);
