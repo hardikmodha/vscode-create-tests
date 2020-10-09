@@ -1,16 +1,20 @@
 "use strict";
 import * as vscode from "vscode";
-import {TestFileCreator} from "./create-tests/TestFileCreator";
+import { TaskRunner } from "./file-generator/TaskRunner";
+
+const taskRunnerInstance = new TaskRunner();
 
 export function activate(context: vscode.ExtensionContext) {
-    const disposable = vscode.commands.registerCommand("createTests.create", (sourceFile: vscode.Uri) => {
-        TestFileCreator.createFor(sourceFile);
-    });
+  const fileGenerator = vscode.commands.registerCommand(
+    "fileGenerator.run",
+    (sourceFile: vscode.Uri) => {
+      taskRunnerInstance.run(sourceFile);
+    }
+  );
 
-    context.subscriptions.push(disposable);
+  context.subscriptions.push(fileGenerator);
 }
 
-// this method is called when your extension is deactivated
-// tslint:disable-next-line
 export function deactivate() {
+  taskRunnerInstance.clean();
 }
