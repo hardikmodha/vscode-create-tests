@@ -27,7 +27,7 @@ class NewFileHelper {
   getFilesLocation(): string {
     let filesLocation: string = this.config.getCustomLocationForNewFiles();
 
-    if (this.isNewFile(this.sourceFile)) {
+    if (this.isTestFile(this.sourceFile)) {
       return this.sourceFile.getDirectoryPath();
     }
 
@@ -61,7 +61,7 @@ class NewFileHelper {
         let localFilePath: string = this.sourceFile.getDirectoryPath();
 
         if (
-          !this.isNewFile(this.sourceFile) &&
+          !this.isTestFile(this.sourceFile) &&
           isNewDirectory(this.config.getDirectoryName(), localFilePath)
         ) {
           localFilePath = path.join(
@@ -103,7 +103,7 @@ class NewFileHelper {
     return directoryPath;
   }
 
-  isNewFile(sourceFile: SourceFile) {
+  isTestFile(sourceFile: SourceFile) {
     const ext =
       this.config.getNewFilesSuffix() + "." + sourceFile.getExtension();
     return sourceFile.getName().endsWith(ext);
@@ -141,12 +141,15 @@ class NewFileHelper {
   getFileAbsolutePath() {
     let newDirPath = this.getFilesLocation();
 
-    if (!isNewDirectory(this.config.getDirectoryName(), newDirPath)) {
+    if (
+      !this.isTestFile(this.sourceFile) &&
+      !isNewDirectory(this.config.getDirectoryName(), newDirPath)
+    ) {
       const newDirName = this.config.getDirectoryName();
       newDirPath = path.join(newDirPath, newDirName);
     }
 
-    const fileName = this.isNewFile(this.sourceFile)
+    const fileName = this.isTestFile(this.sourceFile)
       ? this.sourceFile.getName()
       : getFileName(this.sourceFile, this.config);
     const newFilePath = path.join(newDirPath, fileName);
