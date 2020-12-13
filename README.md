@@ -25,207 +25,233 @@ Needed a file generator to create a file and run task on it.
 Accepts array of configurations with following options
 
 ```
-"fileGenerator.configs": {
-  "type": "array",
-  "items": {
-    "type": "object",
-    "properties": {
-      "defaultLocationForFiles": {
-        "type": "string",
-        "default": "same location as source file",
-        "enum": [
-          "same location as source file",
-          "project root"
-        ],
-        "description": "Where to keep the created new files?"
-      },
-      "label": {
-        "type": "string",
-        "description": "Name of task"
-      },
-      "description": {
-        "type": "string"
-      },
-      "sourceDir": {
-        "type": "string",
-        "default": "src",
-        "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file."
-      },
-      "directoryName": {
-        "type": "string",
-        "description": "Name of the new directory."
-      },
-      "customFilesLocation": {
-        "type": "string",
-        "description": "Set this property in case you want to specify the custom location for new files."
-      },
-      "filesSuffix": {
-        "type": "string",
-        "description": "Suffix to use for the new files."
-      },
-      "fileSuffixType": {
-        "type": "string",
-        "enum": [
-          "replace extension",
-          "extend extension",
-          "append to file name"
-        ],
-        "description": "If set to 'replace extension' file extension will be replaced with 'filesSuffix',if set to 'extend extension' file extension will be extended with 'filesSuffix' eg. .ts => .test.ts, if set to 'append to file name' 'filesSuffix' will be appended to file name."
-      },
-      "shouldSwitchToFile": {
-        "type": "boolean",
-        "default": true,
-        "description": "Whether to switch to the new file or not after creating it."
-      },
-      "template": {
-        "type": [
-          "array",
-          "object"
-        ],
-        "description": "Template to append to newly created file."
-      },
-      "useForwardSlash": {
-        "type": "boolean",
-        "default": true,
-        "description": "If set to true will make backslash to forward slash, useful for windows and jest."
-      },
-      "supportedExtension": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "default": [
-          "ts",
-          "tsx",
-          "js",
-          "jsx"
-        ],
-        "description": "Test supported Extension"
-      },
-      "watchCommands": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "default": [
-          "--watch",
-          "dotnet watch"
-        ],
-        "description": "When file created for the first time the associated tasks should not run,unless a watch command detected."
-      },
-      "tasks": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "title": "task",
-          "properties": {
-            "label": {
-              "type": "string",
-              "description": "Name of task"
-            },
-            "description": {
-              "type": "string"
-            },
-            "args": {
-              "type": "array",
-              "items": {
+    "configuration": {
+      "title": "Where to keep the new files?",
+      "properties": {
+        "fileGenerator.configs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "defaultLocationForFiles": {
                 "type": "string",
-                "title": "task"
+                "default": "same location as source file",
+                "enum": [
+                  "same location as source file",
+                  "project root"
+                ],
+                "description": "Where to keep the created new files?"
               },
-              "description": "Arguments to pass to task"
-            },
-            "checkIfArgPathExist": {
-              "type": "array",
-              "items": {
+              "label": {
+                "type": "string",
+                "description": "Name of task"
+              },
+              "description": {
                 "type": "string"
               },
-              "description": "Will check if path exist for an arguments, the argument and path should be in one line => ['--config=some path to config'], if the path provided for --config not fund --config option will be removed from command. And error message displayed."
-            },
-            "userInputPrompt": {
-              "type": "array",
-              "items": {
-                "type": [
-                  "object",
-                  "array"
+              "sourceDir": {
+                "type": "string",
+                "default": "src",
+                "description": "Name of directory which contains all source files. This directory is not created when generating the directory structure for the test file."
+              },
+              "directoryName": {
+                "type": "string",
+                "description": "Name of the new directory."
+              },
+              "rootFilenameOrExtension": {
+                "type": "string",
+                "description": "To identify the root of the application. The root file name must be unique like 'package.json' that will be placed at the root of the js project.(extension must be start with dot eg. .csproj)"
+              },
+              "ignoreDirectories": {
+                "type": "boolean",
+                "description": "If true only files will be generated and parent directories will be ignored."
+              },
+              "rootDirName": {
+                "type": "string",
+                "description": "If set the original root dir will be change with given value. e.g. rootDirName='MyDir' Folder/test-file.js => MyDir/test-file.js"
+              },
+              "customFilesLocation": {
+                "type": "string",
+                "description": "Set this property in case you want to specify the custom location for new files."
+              },
+              "directorySuffix": {
+                "type": "string",
+                "description": "value will be added to root directory."
+              },
+              "filesSuffix": {
+                "type": "string",
+                "description": "Suffix to use for the new files."
+              },
+              "fileSuffixType": {
+                "type": "string",
+                "enum": [
+                  "replace extension",
+                  "extend extension",
+                  "append to file name"
                 ],
+                "description": "If set to 'replace extension' file extension will be replaced with 'filesSuffix',if set to 'extend extension' file extension will be extended with 'filesSuffix' eg. .ts => .test.ts, if set to 'append to file name' 'filesSuffix' will be appended to file name."
+              },
+              "shouldSwitchToFile": {
+                "type": "boolean",
+                "default": true,
+                "description": "Whether to switch to the new file or not after creating it."
+              },
+              "template": {
+                "type": [
+                  "array",
+                  "object"
+                ],
+                "description": "Template to append to newly created file."
+              },
+              "useForwardSlash": {
+                "type": "boolean",
+                "default": true,
+                "description": "If set to true will make backslash to forward slash, useful for windows and jest."
+              },
+              "supportedExtension": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "ts",
+                  "tsx",
+                  "js",
+                  "jsx"
+                ],
+                "description": "Test supported Extension"
+              },
+              "watchCommands": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "--watch",
+                  "dotnet watch"
+                ],
+                "description": "When file created for the first time the associated tasks should not run,unless a watch command detected."
+              },
+              "tasks": {
+                "type": "array",
                 "items": {
                   "type": "object",
+                  "title": "task",
                   "properties": {
                     "label": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "Name of task"
                     },
                     "description": {
                       "type": "string"
+                    },
+                    "args": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "title": "task"
+                      },
+                      "description": "Arguments to pass to task"
+                    },
+                    "checkIfArgPathExist": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Will check if path exist for an arguments, the argument and path should be in one line => ['--config=some path to config'], if the path provided for --config not fund --config option will be removed from command. And error message displayed."
+                    },
+                    "showMessageIfPathNotExist": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Will display message if file path is not exist. referring to checkIfArgPathExist."
+                    },
+                    "userInputPrompt": {
+                      "type": "array",
+                      "items": {
+                        "type": [
+                          "object",
+                          "array"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "properties": {
+                          "label": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "description": "Will show user input prompt to give a choice of options. for single prompt use array: [{ \"label\": \"--coverage\" }] , for In Sequence prompts use multi dimensional array: [[{ \"label\":\"--coverage\" }],[{ \"label\": \"--watch\" }]]"
+                    },
+                    "runTaskOnFileCreation": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "If true task will run when file created, else it will only run when file already exist"
+                    },
+                    "useForwardSlash": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Will convert back slash to forward slash, Required for jest when running in windows"
+                    },
+                    "usePathFromBaseDirectory": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "When set to true the workspace root path will be removed, Required for jest"
+                    },
+                    "shouldSwitchTerminalToCwd": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Whether to switch terminal to cwd."
+                    },
+                    "shouldSwitchToFile": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Whether to switch to the new file or not."
+                    },
+                    "terminalInstanceType": {
+                      "type": "string",
+                      "default": "label",
+                      "enum": [
+                        "label",
+                        "command",
+                        "new"
+                      ],
+                      "description": "If set to 'label' created terminal instance will be reused by task with label name, if set to 'command' created terminal will be reused by task with same arguments and commands, if set 'new' terminal will be created each time task runs."
+                    },
+                    "command": {
+                      "type": "string",
+                      "default": "jest"
+                    },
+                    "default": {
+                      "type": "boolean",
+                      "description": "When unable to detect task, will run task with default set to true"
                     }
-                  }
-                },
-                "properties": {
-                  "label": {
-                    "type": "string"
                   },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              },
-              "description": "Will show user input prompt to give a choice of options. for single prompt use array: [{ \"label\": \"--coverage\" }] , for In Sequence prompts use multi dimensional array: [[{ \"label\":\"--coverage\" }],[{ \"label\": \"--watch\" }]]"
+                  "required": [
+                    "label"
+                  ]
+                },
+                "description": "Whether to switch to the story file or not after creating it."
+              }
             },
-            "runTaskOnFileCreation": {
-              "type": "boolean",
-              "default": true,
-              "description": "If true task will run when file created, else it will only run when file already exist"
-            },
-            "useForwardSlash": {
-              "type": "boolean",
-              "default": true,
-              "description": "Will convert back slash to forward slash, Required for jest when running in windows"
-            },
-            "usePathFromBaseDirectory": {
-              "type": "boolean",
-              "default": true,
-              "description": "When set to true the workspace root path will be removed, Required for jest"
-            },
-            "shouldSwitchTerminalToCwd": {
-              "type": "boolean",
-              "default": false,
-              "description": "Whether to switch terminal to cwd."
-            },
-            "shouldSwitchToFile": {
-              "type": "boolean",
-              "default": true,
-              "description": "Whether to switch to the new file or not."
-            },
-            "terminalInstanceType": {
-              "type": "string",
-              "default": "label",
-              "enum": [
-                "label",
-                "command",
-                "new"
-              ],
-              "description": "If set to 'label' created terminal instance will be reused by task with label name, if set to 'command' created terminal will be reused by task with same arguments and commands, if set 'new' terminal will be created each time task runs."
-            },
-            "command": {
-              "type": "string",
-              "default": "jest"
-            },
-            "default": {
-              "type": "boolean",
-              "description": "When unable to detect task, will run task with default set to true"
-            }
-          },
-          "required": [
-            "label"
-          ]
-        },
-        "description": "Whether to switch to the story file or not after creating it."
+            "required": [
+              "label"
+            ]
+          }
+        }
       }
-    },
-    "required": [
-      "label"
-    ]
-  }
-}
+    }
 ```
 
 ## Task Variables
