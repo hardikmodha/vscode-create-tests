@@ -29,7 +29,8 @@
     "onLanguage:typescript",
     "onLanguage:javascript",
     "onLanguage:typescriptreact",
-    "onLanguage:javascriptreact"
+    "onLanguage:javascriptreact",
+    "onCommand:fileGenerator.run"
   ],
   "main": "./out/extension",
   "contributes": {
