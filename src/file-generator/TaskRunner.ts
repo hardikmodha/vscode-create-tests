@@ -1,11 +1,12 @@
 import * as vscode from "vscode";
-import * as fs from "fs";
 import { ConfigurationManager } from "./config/ConfigurationManager";
 import { CreationHelper } from "./CreationHelper";
 import { SourceFile } from "./SourceFile";
 import { TerminalInstanceType } from "./types";
 import { createCommand, switchToFile } from "./utils";
 import { NewFileHelper } from "./NewFileHelper";
+import { isSupportExtension } from "./utils";
+import fs from "fs";
 
 export class TaskRunner {
   private terminals: { [key: string]: vscode.Terminal } = {};
@@ -24,16 +25,21 @@ export class TaskRunner {
 
     if (!workspacePath) return;
 
-    const sourceFile = new SourceFile(
-      fileName ? vscode.Uri.file(fileName) : vscode.Uri.file(workspacePath)
-    );
-
-    const configs = await ConfigurationManager.getConfiguration(
-      sourceFile,
-      args
-    );
+    const configs = await ConfigurationManager.getConfiguration(args);
 
     if (!configs) return;
+
+    const sourceFile = new SourceFile(
+      fileName ? vscode.Uri.file(fileName) : vscode.Uri.file(workspacePath),
+      configs
+    );
+
+    if (!isSupportExtension(sourceFile, configs)) {
+      vscode.window.showErrorMessage(
+        "File extension not supported, to support the extension add an entry to 'fileGenerator.configs' and set 'supportedExtension' property."
+      );
+      return;
+    }
 
     if (!configs.isValidExtension(sourceFile)) {
       vscode.window.showErrorMessage("Invalid file extension!");
@@ -45,7 +51,9 @@ export class TaskRunner {
 
     const newFileHelper = new NewFileHelper(configs, sourceFile);
 
-    if (!fs.existsSync(newFileHelper.getFileAbsolutePath())) {
+    var targetFileLocation = newFileHelper.getFileAbsolutePath();
+
+    if (!fs.existsSync(targetFileLocation)) {
       try {
         const helper = new CreationHelper(sourceFile, configs, newFileHelper);
         helper.createFile(configs.getTemplate());
@@ -67,11 +75,7 @@ export class TaskRunner {
 
     const parentSourceFile = newFileHelper.getParentSourceFile(sourceFile);
 
-    const command = await createCommand(
-      parentSourceFile.getAbsolutePath(),
-      newFileSource,
-      task
-    );
+    const command = await createCommand(parentSourceFile, newFileSource, task);
 
     if (newCreated && !task.runTaskOnFileCreation) {
       return;

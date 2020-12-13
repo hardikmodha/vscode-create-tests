@@ -5,15 +5,11 @@ import {
   window,
   QuickPickItem,
 } from "vscode";
-import { SourceFile } from "../SourceFile";
 import { Configuration } from "./Configuration";
 import { IConfiguration } from "../types";
 
 export class ConfigurationManager {
-  static async getConfiguration(
-    sourceFile: SourceFile,
-    args: Uri
-  ): Promise<Configuration | undefined> {
+  static async getConfiguration(args: Uri): Promise<Configuration | undefined> {
     const workspaceConfiguration: WorkspaceConfiguration = workspace.getConfiguration(
       "fileGenerator"
     );
@@ -28,19 +24,6 @@ export class ConfigurationManager {
     }
 
     const isUriInstance = args instanceof Uri;
-
-    const extension = sourceFile.getExtension();
-
-    const configByExtension = configs.find((x) =>
-      x.supportedExtension.includes(extension)
-    );
-
-    if (!configByExtension) {
-      window.showErrorMessage(
-        "File extension not supported, to support the extension add an entry to 'fileGenerator.configs' and set 'supportedExtension' property."
-      );
-      return;
-    }
 
     let taskLabel: string | undefined = "";
     let config: IConfiguration | undefined;

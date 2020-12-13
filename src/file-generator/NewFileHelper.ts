@@ -31,20 +31,24 @@ class NewFileHelper {
       return this.sourceFile.getDirectoryPath();
     }
 
-    if (filesLocation) {
+    if (filesLocation || this.config.getRootByFilenameOrExtension()) {
       // If the path given by user is not absolute then first make it absolute
       if (!path.isAbsolute(filesLocation)) {
         filesLocation = path.normalize(
-          path.join(this.sourceFile.getBaseDirectoryPath(), filesLocation)
+          path.join(this.sourceFile.getBaseDirectoryPath())
         );
       }
 
       const sourceFilePath: string = this.sourceFile.getRelativeFileDirname();
 
-      if (sourceFilePath.indexOf(path.sep) !== -1) {
+      if (
+        sourceFilePath.indexOf(path.sep) !== -1 ||
+        this.config.getDirectoryName()
+      ) {
         filesLocation = path.join(
           filesLocation,
-          getDirectoryPath(sourceFilePath)
+          this.config.getDirectoryName(),
+          this.config.ignoreDirectories ? "" : getDirectoryPath(sourceFilePath)
         );
       }
 
@@ -123,7 +127,7 @@ class NewFileHelper {
       .getDirectoryPath()
       .replace(this.config.getDirectoryName(), "");
     const filePath = path.join(parentDir, this.getParentFileName(sourceFile));
-    return new SourceFile(vscode.Uri.file(filePath));
+    return new SourceFile(vscode.Uri.file(filePath), this.config);
   }
   getFilesDirectory() {
     let newDirPath = this.getFilesLocation();
@@ -135,7 +139,10 @@ class NewFileHelper {
     return newDirPath;
   }
   getSourceFile() {
-    return new SourceFile(vscode.Uri.file(this.getFileAbsolutePath()));
+    return new SourceFile(
+      vscode.Uri.file(this.getFileAbsolutePath()),
+      this.config
+    );
   }
 
   getFileAbsolutePath() {

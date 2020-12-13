@@ -92,9 +92,25 @@
                 "type": "string",
                 "description": "Name of the new directory."
               },
+              "rootFilenameOrExtension": {
+                "type": "string",
+                "description": "To identify the root of the application. The root file name must be unique like 'package.json' that will be placed at the root of the js project.(extension must be start with dot eg. .csproj)"
+              },
+              "ignoreDirectories": {
+                "type": "boolean",
+                "description": "If true only files will be generated and parent directories will be ignored."
+              },
+              "rootDirName": {
+                "type": "string",
+                "description": "If set the original root dir will be change with given value. e.g. rootDirName='MyDir' Folder/test-file.js => MyDir/test-file.js"
+              },
               "customFilesLocation": {
                 "type": "string",
                 "description": "Set this property in case you want to specify the custom location for new files."
+              },
+              "directorySuffix": {
+                "type": "string",
+                "description": "value will be added to root directory."
               },
               "filesSuffix": {
                 "type": "string",
@@ -288,7 +304,7 @@
     "@types/node": "^7.0.43",
     "tslint": "^5.10.0",
     "typescript": "^3.8.3",
-    "vscode": "^1.1.35"
+    "vscode": "^1.1.37"
   },
   "dependencies": {
     "@types/is-windows": "^1.0.0",

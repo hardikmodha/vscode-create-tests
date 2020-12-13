@@ -1,8 +1,8 @@
 import { IConfiguration, NewFileTask } from "../types";
 import { SourceFile } from "../SourceFile";
-
 import { DefaultLocationForNewFiles } from "../constants";
-
+import { resolveVariables } from "../utils//variable-resolver";
+import path from "path";
 /**
  * A class used to hold the extension configurations. It also defines the getters to read the configuration.
  */
@@ -16,6 +16,8 @@ export class Configuration {
     supportedExtension: [],
     tasks: [],
     configs: [],
+    directorySuffix: "",
+    ignoreDirectories: false,
   };
   task?: NewFileTask;
 
@@ -27,12 +29,31 @@ export class Configuration {
     this.task = task;
   }
 
+  get ignoreDirectories(): boolean {
+    return this.defaultConfiguration.ignoreDirectories;
+  }
+
+  getRootDirName(rootDir: string) {
+    const rootDirName = this.defaultConfiguration.rootDirName;
+    if (rootDirName) {
+      const dirName = resolveVariables(rootDir, rootDirName, rootDir);
+
+      return dirName + this.getDirectorySuffix();
+    }
+
+    return rootDir.split(path.sep).pop() + this.getDirectorySuffix();
+  }
+
   getTemplate() {
     return this.defaultConfiguration.template;
   }
 
   getTasks(): NewFileTask[] {
     return this.defaultConfiguration.tasks;
+  }
+
+  getRootByFilenameOrExtension(): string {
+    return this.defaultConfiguration.rootFilenameOrExtension || "";
   }
 
   getDefaultLocationForNewFiles(): string {
@@ -53,6 +74,10 @@ export class Configuration {
 
   getNewFilesSuffix() {
     return this.defaultConfiguration.filesSuffix;
+  }
+
+  getDirectorySuffix() {
+    return this.defaultConfiguration.directorySuffix;
   }
 
   getFileSuffixType() {

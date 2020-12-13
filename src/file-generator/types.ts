@@ -36,6 +36,10 @@ export interface IConfiguration {
   label?: string;
   description?: string;
   template?: Template;
+  rootFilenameOrExtension?: string;
+  rootDirName?: string;
+  directorySuffix: string;
+  ignoreDirectories: boolean;
 }
 
 export type Template = string[] | { [key: string]: string[] };

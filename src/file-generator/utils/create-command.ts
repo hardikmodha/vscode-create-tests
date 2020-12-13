@@ -1,52 +1,13 @@
 import { NewFileTask } from "../types";
 import * as fs from "fs";
 import * as vscode from "vscode";
-import { AbstractVariableResolverService } from "../../vs/variableResolver";
 import { SourceFile } from "file-generator/SourceFile";
-
-export class VariableResolverService extends AbstractVariableResolverService {
-  constructor(
-    folders: vscode.WorkspaceFolder[],
-    sourceFilePath: string,
-    env?: any
-  ) {
-    super(
-      {
-        getFolderUri: (folderName: string): vscode.Uri | undefined => {
-          const found = folders.filter((f) => f.name === folderName);
-          if (found && found.length > 0) {
-            return found[0].uri;
-          }
-          return undefined;
-        },
-        getWorkspaceFolderCount: (): number => {
-          return folders.length;
-        },
-        getConfigurationValue: (): string | undefined => {
-          return undefined;
-        },
-        getExecPath: (): string | undefined => {
-          return undefined;
-        },
-        getFilePath: (): string | undefined => {
-          return sourceFilePath;
-        },
-        getSelectedText: (): string | undefined => {
-          return undefined;
-        },
-        getLineNumber: (): string | undefined => {
-          return undefined;
-        },
-      },
-      env
-    );
-  }
-}
+import { resolveVariables, VariableResolverService } from "./variable-resolver";
 
 const NONE_MESSAGE = "- no option will be passed to the arguments";
 
 export const createCommand = async (
-  sourceFile: string,
+  sourceFile: SourceFile,
   newSourceFile: SourceFile,
   task: NewFileTask
 ) => {
@@ -58,7 +19,7 @@ export const createCommand = async (
 
   const sourceFileVariableResolver = new VariableResolverService(
     vscode.workspace.workspaceFolders!,
-    sourceFile
+    sourceFile.getAbsolutePath()
   );
 
   const workSpaceFolder = vscode.workspace.getWorkspaceFolder(
@@ -131,23 +92,11 @@ export const createCommand = async (
 
   command = sourceFileVariableResolver.resolve(workSpaceFolder as any, command);
 
-  command = command.split("${targetFile}").join("${file}");
-  command = command.split("${relativeTargetFile}").join("${relativeFile}");
-  command = command
-    .split("${relativeTargetFileDirname}")
-    .join("${relativeFileDirname}");
-  command = command.split("${targetFileDirname}").join("${fileDirname}");
-  command = command.split("${targetFileExtname}").join("${fileExtname}");
-  command = command.split("${targetFileBasename}").join("${fileBasename}");
-  command = command
-    .split("${targetFileBasenameNoExtension}")
-    .join("${fileBasenameNoExtension}");
-
-  const newFileVariableResolver = new VariableResolverService(
-    vscode.workspace.workspaceFolders!,
-    newSourceFile.getAbsolutePath()
+  command = resolveVariables(
+    newSourceFile.getAbsolutePath(),
+    command,
+    sourceFile.getBaseDirectoryPath()
   );
-  command = newFileVariableResolver.resolve(workSpaceFolder as any, command);
 
   if (task.useForwardSlash) {
     command = command.split("\\").join("/");
