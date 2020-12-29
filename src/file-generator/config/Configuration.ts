@@ -35,10 +35,15 @@ export class Configuration {
 
   getRootDirName(rootDir: string) {
     const rootDirName = this.defaultConfiguration.rootDirName;
+
+    const dirSuffix = this.getDirectorySuffix();
+
+    if (rootDir.endsWith(dirSuffix)) return rootDir;
+
     if (rootDirName) {
       const dirName = resolveVariables(rootDir, rootDirName, rootDir);
 
-      return dirName + this.getDirectorySuffix();
+      return dirName + dirSuffix;
     }
 
     return rootDir.split(path.sep).pop() + this.getDirectorySuffix();
