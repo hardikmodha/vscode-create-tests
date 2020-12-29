@@ -19,7 +19,7 @@ export class SourceFile {
     let baseDirPath;
     const rootFilenameOrExtension = this._configs.getRootByFilenameOrExtension();
 
-    if (this._configs.getRootByFilenameOrExtension()) {
+    if (rootFilenameOrExtension) {
       baseDirPath = findRootDir(
         path.dirname(this.sourceFileUri.fsPath),
         rootFilenameOrExtension,
@@ -35,7 +35,7 @@ export class SourceFile {
 
     const rootDirName = this._configs.getRootDirName(baseDirPath);
 
-    if (rootDirName) {
+    if (rootDirName && !this.isEndWithDirectorySuffix(baseDirPath)) {
       baseDirPath = path.resolve(baseDirPath, "..");
       baseDirPath = path.join(baseDirPath, rootDirName);
     }

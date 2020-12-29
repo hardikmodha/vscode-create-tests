@@ -73,8 +73,7 @@ export const resolveVariables = (
   }
 
   if (command.indexOf("${targetRootPath}") !== -1) {
-    const dirName = rootDir.split(path.sep).pop();
-    command = command.split("${targetRootPath}").join(dirName);
+    command = command.split("${targetRootPath}").join(rootDir);
   }
 
   return newFileVariableResolver.resolve(workSpaceFolder as any, command);
