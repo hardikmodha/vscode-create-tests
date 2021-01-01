@@ -1,6 +1,7 @@
 import { AbstractVariableResolverService } from "../../vs/variableResolver";
 import * as vscode from "vscode";
 import path from "path";
+import { Configuration } from "file-generator/config/Configuration";
 
 export class VariableResolverService extends AbstractVariableResolverService {
   constructor(
@@ -42,6 +43,7 @@ export class VariableResolverService extends AbstractVariableResolverService {
 }
 
 export const resolveVariables = (
+  configs: Configuration,
   filePath: string,
   command: string,
   rootDir: string
@@ -74,6 +76,13 @@ export const resolveVariables = (
 
   if (command.indexOf("${targetRootPath}") !== -1) {
     command = command.split("${targetRootPath}").join(rootDir);
+  }
+
+  if (command.indexOf("${targetDirNameWithoutDirSuffix}") !== -1) {
+    const dirName = path.basename(
+      rootDir.replace(configs.getDirectorySuffix(), "")
+    );
+    command = command.split("${targetDirNameWithoutDirSuffix}").join(dirName);
   }
 
   return newFileVariableResolver.resolve(workSpaceFolder as any, command);

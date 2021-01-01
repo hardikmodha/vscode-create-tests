@@ -41,7 +41,7 @@ export class Configuration {
     if (rootDir.endsWith(dirSuffix)) return rootDir;
 
     if (rootDirName) {
-      const dirName = resolveVariables(rootDir, rootDirName, rootDir);
+      const dirName = resolveVariables(this, rootDir, rootDirName, rootDir);
 
       return dirName + dirSuffix;
     }

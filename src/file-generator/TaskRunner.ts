@@ -47,7 +47,6 @@ export class TaskRunner {
     }
 
     let newCreated = false;
-    const task = configs.getTask();
 
     const newFileHelper = new NewFileHelper(configs, sourceFile);
 
@@ -66,6 +65,7 @@ export class TaskRunner {
 
     const newFileSource = newFileHelper.getSourceFile();
 
+    const task = configs.getTask();
     if (!task) {
       if (configs.shouldSwitchToFile()) {
         switchToFile(newFileSource.getAbsolutePath());
@@ -75,7 +75,11 @@ export class TaskRunner {
 
     const parentSourceFile = newFileHelper.getParentSourceFile(sourceFile);
 
-    const command = await createCommand(parentSourceFile, newFileSource, task);
+    const command = await createCommand(
+      parentSourceFile,
+      newFileSource,
+      configs
+    );
 
     if (newCreated && !task.runTaskOnFileCreation) {
       return;
@@ -86,7 +90,7 @@ export class TaskRunner {
     }
 
     this.runTerminalCommand(
-      command,
+      command!,
       task.terminalInstanceType,
       args.toString(),
       task.label,

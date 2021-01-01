@@ -1,17 +1,21 @@
-import { NewFileTask } from "../types";
 import * as fs from "fs";
 import * as vscode from "vscode";
 import { SourceFile } from "file-generator/SourceFile";
 import { resolveVariables, VariableResolverService } from "./variable-resolver";
+import { Configuration } from "file-generator/config/Configuration";
 
 const NONE_MESSAGE = "- no option will be passed to the arguments";
 
 export const createCommand = async (
   sourceFile: SourceFile,
   newSourceFile: SourceFile,
-  task: NewFileTask
+  configs: Configuration
 ) => {
   let stringBuilder: string[] = [];
+
+  const task = configs.getTask();
+
+  if (!task) return;
 
   const args = task.args ? task.args.map((x) => x) : undefined;
 
@@ -93,6 +97,7 @@ export const createCommand = async (
   command = sourceFileVariableResolver.resolve(workSpaceFolder as any, command);
 
   command = resolveVariables(
+    configs,
     newSourceFile.getAbsolutePath(),
     command,
     sourceFile.getBaseDirectoryPath()
