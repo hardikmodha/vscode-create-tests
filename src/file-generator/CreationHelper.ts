@@ -8,6 +8,7 @@ import { TemplateManager } from "./templates/TemplateManager";
 import { NewFileHelper } from "./NewFileHelper";
 import mkdirp = require("mkdirp");
 import { Template } from "./types";
+import { resolveVariables } from "./utils/variable-resolver";
 
 /**
  * A helper class which defines methods to create a new file for any particular source file based on the
@@ -94,6 +95,16 @@ export class CreationHelper {
           content
         );
       }
+
+      const path = this.sourceFile.getAbsolutePath();
+
+      stringTemplate = resolveVariables(
+        this.configuration,
+        path,
+        stringTemplate,
+        filePath
+      );
+
       fs.writeFile(filePath, stringTemplate, (err) => {
         if (err) {
           throw err;
