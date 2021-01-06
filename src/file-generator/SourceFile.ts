@@ -35,7 +35,7 @@ export class SourceFile {
 
     const rootDirName = this._configs.getRootDirName(baseDirPath);
 
-    if (rootDirName && !this.isEndWithDirectorySuffix(baseDirPath)) {
+    if (rootDirName && !path.isAbsolute(rootDirName)) {
       baseDirPath = path.resolve(baseDirPath, "..");
       baseDirPath = path.join(baseDirPath, rootDirName);
     }
